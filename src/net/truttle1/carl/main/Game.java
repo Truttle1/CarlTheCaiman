@@ -169,7 +169,7 @@ public final class Game extends Canvas implements Runnable
 	
 	public static void main(String[] args)
 	{
-		JFrame frame = new JFrame("The Misadventures of Carl the Caiman");
+		JFrame frame = new JFrame("Carl the Caiman: The Ten Dollar Bill of Glory");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Game window = new Game();
 		frame.add(window);
