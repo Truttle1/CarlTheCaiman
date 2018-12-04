@@ -14,7 +14,7 @@ public class AudioHandler {
 	
 	public static int clipTime;
 	
-	public static final File talk0  = new File("res/audio/talk0.wav");
+	public static final File TROPICAL_THEME  = new File("res/music/tropical.wav");
 	private static File currentMusic = null;
 
 	public static File getMusic()
@@ -28,6 +28,7 @@ public class AudioHandler {
 	public static Clip[] speechClips = new Clip[10];
 	public static void init()
 	{
+		/*
 		for(int i=0;i<10;i++)
 		{
 			try {
@@ -38,7 +39,7 @@ public class AudioHandler {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 	private static ArrayList<Clip> effectsOld = new ArrayList<Clip>();
 	private static ArrayList<Clip> effects = new ArrayList<Clip>();

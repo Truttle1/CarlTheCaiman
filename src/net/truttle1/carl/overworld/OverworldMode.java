@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import net.truttle1.carl.main.AudioHandler;
 import net.truttle1.carl.main.Game;
 import net.truttle1.carl.main.GameMode;
 import net.truttle1.carl.main.GameObject;
@@ -28,7 +29,7 @@ public class OverworldMode extends GameMode
 		tropicalBackground = window.getImageLoad().loadImage("/img/bg/tropical_00001.png");
 		
 		BufferedImage tr = window.getImageLoad().loadImage("/room/test.png");
-		testRoom = new Room(tr,this,false,null,Theme.Tropical,0,null);
+		testRoom = new Room(tr,this,false,null,Theme.Tropical,0,AudioHandler.TROPICAL_THEME);
 		testRoom.loadStage();
 		testRoom.addPlayer(200, 2500);
 		ty = 2500;

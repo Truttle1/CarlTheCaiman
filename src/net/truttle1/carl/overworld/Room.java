@@ -7,6 +7,7 @@ import net.truttle1.carl.blocks.Grass;
 import net.truttle1.carl.blocks.Sand;
 import net.truttle1.carl.blocks.Stone;
 import net.truttle1.carl.blocks.Water;
+import net.truttle1.carl.main.AudioHandler;
 import net.truttle1.carl.main.Global;
 import net.truttle1.carl.main.Theme;
 
@@ -31,6 +32,10 @@ public class Room {
 		}
 		this.id = id;
 		this.music = music;
+	}
+	public File getMusic()
+	{
+		return music;
 	}
 	public int getId()
 	{
@@ -82,7 +87,7 @@ public class Room {
 			}
 		}
 		Global.doneLoading = true;
-
+		AudioHandler.playMusic(AudioHandler.TROPICAL_THEME);
 		Global.currentRoom = this;
 		height = stage.getHeight()*100;
 		width = stage.getWidth()*100;
