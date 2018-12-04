@@ -12,3 +12,4 @@ defeat Literally Satan, and reclaim the Ten Dollar Bill of Glory for his town of
 of the fame and fortune from being a platform game hero instead of working at his boring day job. By the way, Carl’s species, 
 the Caiman, is sort of like a crocodile, but sort of also like an alligator.
 
+### NOTE: This game is very early in development. Therefore, there isn't a lot of content yet, and the game may have a few bugs.
