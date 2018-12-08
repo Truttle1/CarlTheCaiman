@@ -25,7 +25,7 @@ public class Global {
 	public static boolean leftPressed;
 	public static boolean rightDown;
 	public static boolean rightPressed;
-	
+
 	public static boolean zReleased;
 	public static boolean xReleased;
 	public static boolean cReleased;
@@ -34,6 +34,15 @@ public class Global {
 	public static boolean downReleased;
 	public static boolean rightReleased;
 	public static boolean leftReleased;
+	
+	public static boolean zNewPressed;
+	public static boolean xNewPressed;
+	public static boolean cNewPressed;
+	public static boolean vNewPressed;
+	public static boolean upNewPressed;
+	public static boolean downNewPressed;
+	public static boolean rightNewPressed;
+	public static boolean leftNewPressed;
 	
 	public static boolean disableMovement;
 	public static boolean doneLoading;

@@ -11,7 +11,7 @@ import net.truttle1.carl.main.GameObject;
 import net.truttle1.carl.main.Global;
 import net.truttle1.carl.main.ObjectId;
 
-public class Carl extends GameObject{
+public final class Carl extends GameObject{
 
 	private int hVelocity;
 	private int vVelocity;
@@ -24,6 +24,13 @@ public class Carl extends GameObject{
 	private boolean landing;
 	private boolean facingLeft = false;
 	private boolean swimming;
+	private boolean attacking;
+	
+	private boolean hit = false;
+	private int hitTimer;
+	
+	private static final int W_BITE = 0;
+	private int weapon = 0;
 	
 	public Carl(Game window, int x, int y) {
 		super(window);
@@ -44,8 +51,57 @@ public class Carl extends GameObject{
 		moveCamera();
 		move();
 		collideWithGround();
+		attack();
+		if(hit)
+		{
+			hitTimer++;
+			if(hitTimer>24)
+			{
+				hitTimer = 0;
+				hit = false;
+			}
+		}
 	}
 
+	public boolean getHit()
+	{
+		return hit;
+	}
+	public void enemyCollision(GameObject enemy)
+	{
+		enemy.turnAround();
+		hit = true;
+	}
+	private void attack()
+	{
+		if(Global.xPressed && !attacking && vVelocity<=0)
+		{
+			//this.hVelocity = 0;
+			this.setFrame(0, 0);
+			this.attacking = true;
+
+		}
+		if(Global.leftPressed || Global.rightPressed || Global.zPressed)
+		{
+			this.attacking = false;
+		}
+		if(attacking)
+		{
+			if(hVelocity>0)
+			{
+				hVelocity -= 1;
+			}
+			if(hVelocity<0)
+			{
+				hVelocity += 1;
+			}
+			this.currentAnimation = Sprites.carlBite(tie);
+			if(this.getFrame(0)>=11)
+			{
+				attacking = false;
+			}
+		}
+	}
 	private void determineSwimming()
 	{
 
@@ -108,7 +164,7 @@ public class Carl extends GameObject{
 	{
 		x+=hVelocity;
 		y+=vVelocity;
-		if(Global.leftDown && !blockedLeft)
+		if(Global.leftDown && !blockedLeft && !attacking)
 		{
 			if(!facingLeft && hVelocity != 0)
 			{
@@ -126,7 +182,7 @@ public class Carl extends GameObject{
 				blockedRight = false;
 			}
 		}
-		else if(Global.rightDown && !blockedRight)
+		else if(Global.rightDown && !blockedRight && !attacking)
 		{
 			if(facingLeft && hVelocity != 0)
 			{
@@ -148,11 +204,11 @@ public class Carl extends GameObject{
 		{
 			if(hVelocity>0)
 			{
-				hVelocity-=2;
+				hVelocity-=1;
 			}
 			else if(hVelocity<0)
 			{
-				hVelocity+=2;
+				hVelocity+=1;
 			}
 			if(hVelocity == 1 || hVelocity == -1)
 			{
@@ -272,16 +328,21 @@ public class Carl extends GameObject{
 	}
 	@Override
 	public void render(Graphics g) {
-		if(flipped)
+		if(!hit || hitTimer%6<3)
 		{
-			this.animate(x, y, currentAnimation, 0, g);
-		}
-		else
-		{
-			this.animate(x-40, y, currentAnimation, 0, g);
+			if(flipped)
+			{
+				this.animate(x, y, currentAnimation, 0, g);
+			}
+			else
+			{
+				this.animate(x-40, y, currentAnimation, 0, g);
+			}
 		}
 		
 		g.setColor(Color.red);
+		//g.drawRect(attackBounds().x,attackBounds().y,attackBounds().width,attackBounds().height);
+		
 		/*
 		g.drawRect(getBottom().x,getBottom().y,getBottom().width,getBottom().height);
 		g.drawRect(getTop().x,getTop().y,getTop().width,getTop().height);
@@ -294,7 +355,14 @@ public class Carl extends GameObject{
 
 	@Override
 	public Rectangle getBounds() {
-		return new Rectangle(x+18,y+8,160,190);
+		if(flipped)
+		{
+			return new Rectangle(x+18,y+8,140,190);
+		}
+		else
+		{
+			return new Rectangle(x,y+8,140,190);
+		}
 	}
 
 	public Rectangle getBottom()
@@ -313,5 +381,31 @@ public class Carl extends GameObject{
 	{
 		return new Rectangle(x+100,y+40,40,114);
 	}
-
+	public int getAttack()
+	{
+		int attack = 0;
+		if(attacking)
+		{
+			attack = 1;
+		}
+		return attack;
+	}
+	public Rectangle attackBounds()
+	{
+		if(getAttack()<=1)
+		{
+			if(flipped)
+			{
+				return new Rectangle(x+110,y+40,100,50);
+			}
+			else
+			{
+				return new Rectangle(x-40,y+40,100,50);
+			}
+		}
+		else
+		{
+			return new Rectangle(x+100,y,50,50);
+		}
+	}
 }

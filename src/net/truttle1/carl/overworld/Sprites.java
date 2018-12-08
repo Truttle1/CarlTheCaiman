@@ -24,6 +24,10 @@ public class Sprites {
 	public static BufferedImage[] carlSkid(boolean tie) {if(tie)return carlSkid[0];else return carlSkid[1];}
 	private static BufferedImage[][] carlSwim;
 	public static BufferedImage[] carlSwim(boolean tie) {if(tie)return carlSwim[0];else return carlSwim[1];}
+	private static BufferedImage[][] carlBite;
+	public static BufferedImage[] carlBite(boolean tie) {if(tie)return carlBite[0];else return carlBite[1];}
+	private static BufferedImage[][] carlHit;
+	public static BufferedImage[] carlHit(boolean tie) {if(tie)return carlHit[0];else return carlHit[1];}
 
 	private static BufferedImage[] ground;
 	public static BufferedImage[] ground() {return ground;}
@@ -37,6 +41,11 @@ public class Sprites {
 	public static BufferedImage[] water() {return water;}
 	private static BufferedImage[] flowingWater;
 	public static BufferedImage[] flowingWater() {return flowingWater;}
+	private static BufferedImage[] poof;
+	public static BufferedImage[] poof() {return poof;}
+	
+	private static BufferedImage[] coconut;
+	public static BufferedImage[] coconut() {return coconut;}
 	
 	public static void loadOverworldAnimations(Game window)
 	{
@@ -48,12 +57,16 @@ public class Sprites {
 			stone = loadAnimation("/img/blocks/stone", 1, window);
 			water = loadAnimation("/img/blocks/water1", 1, window);
 			flowingWater = loadAnimation("/img/blocks/flowwater", 24, window);
+			coconut = loadAnimation("/img/enemy/coconut/coconut1", 24, window);
+			poof = loadAnimation("/img/eyecandy/poof", 10, window);
 			
 			carlIdle = loadCarlSprite("/img/carl/idle/idle", 24, window);
 			carlRun = loadCarlSprite("/img/carl/run/run", 16, window);
 			carlJump = loadCarlSprite("/img/carl/jump/jump", 2, window);
 			carlSkid = loadCarlSprite("/img/carl/skid/skid", 1, window);
 			carlSwim = loadCarlSprite("/img/carl/swim/swim", 12, window);
+			carlBite = loadCarlSprite("/img/carl/chomp/chomp", 12, window);
+			carlHit = loadCarlSprite("/img/carl/hit/hit", 6, window);
 
 		}
 		catch(Exception e) {e.printStackTrace();}

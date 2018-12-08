@@ -76,26 +76,29 @@ public class Sand extends Grass{
 
 	@Override
 	public void render(Graphics g) {
-		this.animate(x,y,currentAnimation,0,g);
-		if(topLine)
+		if(om.getTx()<this.x+164 && om.getTx()+Game.WIDTH>this.x && om.getTy()<this.y+164 && om.getTy()+Game.HEIGHT>this.y)
 		{
-			g.setColor(clr);
-			g.fillRect(x, y, 100, 4);
-		}
-		if(bottomLine)
-		{
-			g.setColor(clr);
-			g.fillRect(x, y+96, 100, 4);
-		}
-		if(leftLine)
-		{
-			g.setColor(clr);
-			g.fillRect(x, y, 4, 100);
-		}
-		if(rightLine)
-		{
-			g.setColor(clr);
-			g.fillRect(x+96, y, 4, 100);
+			g.drawImage(currentAnimation[0],x,y,null);
+			if(topLine)
+			{
+				g.setColor(clr);
+				g.fillRect(x, y, 100, 4);
+			}
+			if(bottomLine)
+			{
+				g.setColor(clr);
+				g.fillRect(x, y+96, 100, 4);
+			}
+			if(leftLine)
+			{
+				g.setColor(clr);
+				g.fillRect(x, y, 4, 100);
+			}
+			if(rightLine)
+			{
+				g.setColor(clr);
+				g.fillRect(x+96, y, 4, 100);
+			}
 		}
 	}
 	@Override

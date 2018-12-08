@@ -14,7 +14,7 @@ import net.truttle1.carl.main.ObjectId;
 import net.truttle1.carl.main.Theme;
 import net.truttle1.carl.main.Global;
 
-public class OverworldMode extends GameMode
+public final class OverworldMode extends GameMode
 {
 	private ArrayList<GameObject> objects = new ArrayList<GameObject>();
 	private int tx;
@@ -71,8 +71,10 @@ public class OverworldMode extends GameMode
 		{
 			g.setColor(new Color(0x8CFFFF));
 			g.fillRect(0,0,1500,640);
-			g.setColor(new Color(0x00A8FF));
-			g.fillRect(0,Global.currentRoom.getHeight()-800,1500,250);
+			g.setColor(new Color(0x38ACFF));
+			g.translate(0,-ty);
+			g.fillRect(0,Global.currentRoom.getHeight()-200,1500,450);
+			g.translate(0,ty);
 			
 		}
 		Graphics2D g2d = (Graphics2D) g;			
@@ -91,6 +93,20 @@ public class OverworldMode extends GameMode
 		for(int i=0; i<objects.size();i++)
 		{
 			if(objects.get(i).getId() == ObjectId.Water)
+			{
+				objects.get(i).render(g);
+			}
+		}
+		for(int i=0; i<objects.size();i++)
+		{
+			if(objects.get(i).getId() == ObjectId.Monster)
+			{
+				objects.get(i).render(g);
+			}
+		}
+		for(int i=0; i<objects.size();i++)
+		{
+			if(objects.get(i).getId() == ObjectId.EyeCandy)
 			{
 				objects.get(i).render(g);
 			}

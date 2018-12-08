@@ -46,17 +46,17 @@ public class KeyboardInput implements KeyListener{
 			Global.leftDown = true;
 			Global.leftPressed = true;
 		}
-		if(key == KeyEvent.VK_RIGHT && !Global.leftDown)
+		if(key == KeyEvent.VK_RIGHT && !Global.rightDown)
 		{
 			Global.rightDown = true;
 			Global.rightPressed = true;
 		}
-		if(key == KeyEvent.VK_UP && !Global.leftDown)
+		if(key == KeyEvent.VK_UP && !Global.upDown)
 		{
 			Global.upDown = true;
 			Global.upPressed = true;
 		}
-		if(key == KeyEvent.VK_DOWN && !Global.leftDown)
+		if(key == KeyEvent.VK_DOWN && !Global.downDown)
 		{
 			Global.downDown = true;
 			Global.downPressed = true;

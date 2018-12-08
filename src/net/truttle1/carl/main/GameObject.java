@@ -13,6 +13,8 @@ public abstract class GameObject {
 
 	protected int startX;
 	protected int startY;
+	protected int hVelocity;
+	protected int vVelocity;
 	protected boolean flipped = false;
 	protected double[] currentFrame = new double[9];
 	protected ObjectId id;
@@ -219,6 +221,11 @@ public abstract class GameObject {
 		}
 		return img;
 	}
+	public void turnAround()
+	{
+		this.hVelocity *= -1;
+		this.flipped = !flipped;
+	}
 	protected BufferedImage replaceTwoColors(Color start, Color end,Color start2, Color end2, BufferedImage input)
 	{
 		BufferedImage img = input;
@@ -242,4 +249,5 @@ public abstract class GameObject {
 	{
 		return id;
 	}
+	public boolean getFlipped() {return flipped;}
 }

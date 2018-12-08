@@ -9,4 +9,6 @@ public class Pallate {
 	public static final Color STONE = new Color(127,127,127);
 	public static final Color STONE2 = new Color(127,127,177);
 	public static final Color WATER = new Color(0,0,255);
+	
+	public static final Color MONSTER1 = new Color(255,0,255);
 }

@@ -7,6 +7,7 @@ import net.truttle1.carl.blocks.Grass;
 import net.truttle1.carl.blocks.Sand;
 import net.truttle1.carl.blocks.Stone;
 import net.truttle1.carl.blocks.Water;
+import net.truttle1.carl.enemies.Coconut;
 import net.truttle1.carl.main.AudioHandler;
 import net.truttle1.carl.main.Global;
 import net.truttle1.carl.main.Theme;
@@ -82,6 +83,10 @@ public class Room {
 					if(stage.getRGB(x,y) == Pallate.WATER.getRGB())
 					{
 						om.addObject(new Water(x,y,om.getGame(),om));
+					}
+					if(stage.getRGB(x,y) == Pallate.MONSTER1.getRGB())
+					{
+						om.addObject(new Coconut(om.getGame(),x,y));
 					}
 				}
 			}
