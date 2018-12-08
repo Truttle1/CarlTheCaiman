@@ -8,8 +8,10 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
+import java.io.IOException;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import net.truttle1.carl.main.KeyboardInput;
 import net.truttle1.carl.overworld.OverworldMode;
@@ -27,6 +29,7 @@ public final class Game extends Canvas implements Runnable
 	private ModeType mode;
 	private GraphicsLoader graphicsLoader;
 	private ImageLoader imageLoader;
+	private JLabel lbl = new JLabel();
 	@Override
 	public void run() 
 	{
@@ -167,7 +170,7 @@ public final class Game extends Canvas implements Runnable
 		Global.talkingTo = null;
 	}
 	
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException
 	{
 		JFrame frame = new JFrame("Carl the Caiman: The Ten Dollar Bill of Glory");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -179,11 +182,32 @@ public final class Game extends Canvas implements Runnable
 		frame.setVisible(true);
 	}
 
-	public Game()
+	public Game() throws IOException
 	{
 		setBackground(Color.white);
 		setPreferredSize(new Dimension(WIDTH,HEIGHT));
 		mode = ModeType.Loading;
+		if(Global.OS.toLowerCase().contains("mac"))
+		{
+			Runtime.getRuntime().exec("defaults write -g ApplePressAndHoldEnabled -bool false");
+		}
+		Runtime.getRuntime().addShutdownHook(new Thread()
+				{
+					@Override
+					public void run()
+					{
+						System.out.println("BYE");
+
+						if(Global.OS.toLowerCase().contains("mac"))
+						{
+							try {
+								Runtime.getRuntime().exec("defaults write -g ApplePressAndHoldEnabled -bool true");
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				});
 	}
 	public OverworldMode getOverworldMode()
 	{
