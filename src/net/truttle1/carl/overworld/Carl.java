@@ -13,8 +13,8 @@ import net.truttle1.carl.main.ObjectId;
 
 public final class Carl extends GameObject{
 
-	private int hVelocity;
-	private int vVelocity;
+	private double hVelocity;
+	private double vVelocity;
 	private boolean tie = true;
 	private OverworldMode om;
 	private boolean skidding;
@@ -29,7 +29,7 @@ public final class Carl extends GameObject{
 	private boolean hit = false;
 	private int hitTimer;
 	
-	private static final int W_BITE = 0;
+	private static final int W_BITE = 1;
 	private int weapon = 0;
 	
 	public Carl(Game window, int x, int y) {
@@ -55,7 +55,7 @@ public final class Carl extends GameObject{
 		if(hit)
 		{
 			hitTimer++;
-			if(hitTimer>24)
+			if(hitTimer>12)
 			{
 				hitTimer = 0;
 				hit = false;
@@ -69,7 +69,36 @@ public final class Carl extends GameObject{
 	}
 	public void enemyCollision(GameObject enemy)
 	{
-		enemy.turnAround();
+		if(!hit)
+		{
+			System.out.println(!(enemy.getHVelocity()>0 && this.hVelocity>0));
+			System.out.println(!(enemy.getHVelocity()<0 && this.hVelocity<0));
+			if(!(enemy.getHVelocity()>0 && this.hVelocity>0) && !(enemy.getHVelocity()<0 && this.hVelocity<0))
+			{
+				enemy.turnAround();
+			}
+			if(this.hVelocity==0)
+			{
+				this.hVelocity = -enemy.getHVelocity();
+			}
+			else if(Math.abs(this.hVelocity)<8)
+			{
+				this.hVelocity = -hVelocity*2;
+			}
+			else
+			{
+				this.hVelocity = -hVelocity;
+			}
+			this.currentAnimation = Sprites.carlHit(tie);
+			if(tie)
+			{
+				this.tie = false;
+			}
+		}
+		if(this.hitTimer==11)
+		{
+			this.hitTimer = 0;
+		}
 		hit = true;
 	}
 	private void attack()
@@ -164,7 +193,7 @@ public final class Carl extends GameObject{
 	{
 		x+=hVelocity;
 		y+=vVelocity;
-		if(Global.leftDown && !blockedLeft && !attacking)
+		if(Global.leftDown && !blockedLeft && !attacking && !hit)
 		{
 			if(!facingLeft && hVelocity != 0)
 			{
@@ -182,7 +211,7 @@ public final class Carl extends GameObject{
 				blockedRight = false;
 			}
 		}
-		else if(Global.rightDown && !blockedRight && !attacking)
+		else if(Global.rightDown && !blockedRight && !attacking && !hit)
 		{
 			if(facingLeft && hVelocity != 0)
 			{
@@ -200,7 +229,7 @@ public final class Carl extends GameObject{
 			}
 			blockedLeft = false;
 		}
-		else if(!Global.leftDown && !Global.rightDown)
+		else if((!Global.leftDown && !Global.rightDown)||hit)
 		{
 			if(hVelocity>0)
 			{
@@ -218,13 +247,13 @@ public final class Carl extends GameObject{
 
 		if(Global.zPressed && onGround && !swimming)
 		{
-			vVelocity = -60;
-			y += -50;
+			vVelocity = -50;
+			y += -60;
 			onGround = false;
 		}
 		if(Global.zPressed && swimming)
 		{
-			vVelocity = -20;
+			vVelocity = -10;
 			y += -30;
 			onGround = false;
 		}
@@ -234,11 +263,11 @@ public final class Carl extends GameObject{
 		}
 		if(landing && vVelocity<0 && !swimming)
 		{
-			vVelocity /= 2;
+			vVelocity /= 1.5;
 		}
 		if(swimming && !onGround)
 		{
-			if(this.getFrame(0)>12 || (hVelocity == 0 && vVelocity >= 0))
+			if((this.getFrame(0)>12) || (Math.abs(hVelocity) <= 3 && vVelocity >= 0))
 			{
 				this.setFrame(0,0);
 			}
@@ -271,6 +300,10 @@ public final class Carl extends GameObject{
 				skidding = false;
 			}
 		}
+		if(hit)
+		{
+			this.currentAnimation = Sprites.carlHit(tie);
+		}
 		if(vVelocity != 0)
 		{
 			blockedLeft = false;
@@ -279,11 +312,11 @@ public final class Carl extends GameObject{
 		onGround = false;
 		if(swimming)
 		{
-			vVelocity += 2;
+			vVelocity += .5;
 		}
 		else
 		{
-			vVelocity += 6;
+			vVelocity += 5;
 		}
 	}
 	private void collideWithGround()
@@ -384,23 +417,27 @@ public final class Carl extends GameObject{
 	public int getAttack()
 	{
 		int attack = 0;
-		if(attacking)
+		if(attacking && this.getFrame(0)>=6)
 		{
 			attack = 1;
+		}
+		if(attacking && this.getFrame(0)<6)
+		{
+			attack = 9999;
 		}
 		return attack;
 	}
 	public Rectangle attackBounds()
 	{
-		if(getAttack()<=1)
+		if(getAttack()<=1 || getAttack()>1000)
 		{
 			if(flipped)
 			{
-				return new Rectangle(x+110,y+40,100,50);
+				return new Rectangle(x+110,y+40,70,50);
 			}
 			else
 			{
-				return new Rectangle(x-40,y+40,100,50);
+				return new Rectangle(x-20,y+40,70,50);
 			}
 		}
 		else

@@ -23,6 +23,14 @@ public abstract class GameObject {
 	{
 		this.window = window;
 	}
+	public int getHVelocity()
+	{
+		return hVelocity;
+	}
+	public int getVVelocity()
+	{
+		return vVelocity;
+	}
 	protected GameObject getPlayer()
 	{
 		for(int i = 0; i<window.getOverworldMode().getObjects().size();i++)

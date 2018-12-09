@@ -24,7 +24,7 @@ public class Coconut extends GameObject{
 		this.y = y*100;
 		this.currentAnimation = Sprites.coconut();
 		this.id = ObjectId.Monster;
-		hVelocity = 4;
+		hVelocity = 6;
 	}
 
 	@Override
@@ -46,10 +46,11 @@ public class Coconut extends GameObject{
 		{
 			this.animate(x, y, currentAnimation, 0, g);		//Animation!
 		}
+		Graphics2D g2d = (Graphics2D)g;
+		g2d.setColor(Color.YELLOW);
 		/*
 		g2d.draw(getLeft());
 		g2d.draw(getRight());
-		g2d.setColor(Color.YELLOW);
 		g2d.draw(getBottom());
 		g2d.draw(getBounds());
 		*/
@@ -107,7 +108,7 @@ public class Coconut extends GameObject{
 				if(tempObject.getBounds().intersects(this.getBottom()))
 				{
 					vVelocity = 0;
-					this.y = tempObject.getY()-180;
+					this.y = tempObject.getY()-130;
 				}
 				
 			}
@@ -120,12 +121,12 @@ public class Coconut extends GameObject{
 		//Move left if there is no ground to your right
 		if(!touchingRight)
 		{
-			hVelocity = -4;
+			hVelocity = -6;
 		}
 		//Move right if there is no ground to your left
 		if(!touchingLeft)
 		{
-			hVelocity = 4;
+			hVelocity = 6;
 		}
 		//Walk if you are not marked as newly dead
 		if(!dead)
@@ -145,31 +146,31 @@ public class Coconut extends GameObject{
 	}
 	@Override
 	public Rectangle getBounds() {
-		return new Rectangle(this.x+30,this.y+20,145,160);
+		return new Rectangle(this.x+30,this.y+20,95,110);
 	}
 	@Override
 	public Rectangle getLeft()
 	{
-		return new Rectangle(this.x,this.y,25,225);
+		return new Rectangle(this.x+10,this.y,25,175);
 	}
 	@Override
 	public Rectangle getRight()
 	{
-		return new Rectangle(this.x+180,this.y,25,225);
+		return new Rectangle(this.x+120,this.y,25,175);
 	}
 	@Override
 	public Rectangle getBottom()
 	{
-		return new Rectangle(this.x+40,this.y+165,130,25);
+		return new Rectangle(this.x+40,this.y+115,80,25);
 	}
 	private void playerCollision(Carl carl)
 	{
 		//Die if the player attacks
-		if(this.getBounds().intersects(carl.attackBounds()) && carl.getAttack()>0)
+		if(this.getBounds().intersects(carl.attackBounds()) && carl.getAttack()>0 && carl.getAttack()<9999)
 		{
 			die();
 		}
-		else if(this.getBounds().intersects(carl.getBounds()) && !carl.getHit() && !dead)
+		else if(this.getBounds().intersects(carl.getBounds()) && !dead && carl.getAttack()<9999)
 		{
 			//Player takes damage when he collides with an enemy.
 			//How this damage is calculated is the player's problem.
@@ -178,7 +179,7 @@ public class Coconut extends GameObject{
 	}
 	private void die()
 	{
-		window.getOverworldMode().addObject(new EyeCandy(window,x-25,y-25,Sprites.poof()));
+		window.getOverworldMode().addObject(new EyeCandy(window,x-50,y-50,Sprites.poof()));
 		dead = true;
 		
 	}
