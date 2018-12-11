@@ -19,7 +19,7 @@ public abstract class GameObject {
 	protected double[] currentFrame = new double[9];
 	protected ObjectId id;
 	protected BufferedImage[] currentAnimation;
-	protected GameObject(Game window)
+	public GameObject(Game window)
 	{
 		this.window = window;
 	}

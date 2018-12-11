@@ -21,6 +21,7 @@ public class Room {
 	private BufferedImage bg;
 	private int id;
 	private File music;
+	private static int checkpointIds = 1;
 	public Room(BufferedImage stage, OverworldMode om, boolean load, BufferedImage bg, Theme world, int id, File music)
 	{
 		this.stage = stage;
@@ -44,7 +45,13 @@ public class Room {
 	}
 	public void addPlayer(int x, int y)
 	{
-		om.addObject(new Carl(om.getGame(),x,y));
+		Carl player = new Carl(om.getGame(),x,y,true);
+		om.addObject(player);
+	}
+	public void addPlayer(int x, int y, boolean tie)
+	{
+		Carl player = new Carl(om.getGame(),x,y,false);
+		om.addObject(player);
 	}
 	public Theme getTheme()
 	{
@@ -88,12 +95,18 @@ public class Room {
 					{
 						om.addObject(new Coconut(om.getGame(),x,y));
 					}
+					if(stage.getRGB(x,y) == Pallate.CHECKPOINT.getRGB())
+					{
+						om.addObject(new Checkpoint(om.getGame(),x,y,checkpointIds));
+						checkpointIds++;
+					}
 				}
 			}
 		}
 		Global.doneLoading = true;
 		AudioHandler.playMusic(AudioHandler.TROPICAL_THEME);
 		Global.currentRoom = this;
+		RoomAdditions.setupRoom(this);
 		height = stage.getHeight()*100;
 		width = stage.getWidth()*100;
 	}

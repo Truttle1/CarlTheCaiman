@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 
 import net.truttle1.carl.blocks.Grass;
 import net.truttle1.carl.blocks.Water;
+import net.truttle1.carl.main.AudioHandler;
 import net.truttle1.carl.main.Game;
 import net.truttle1.carl.main.GameObject;
 import net.truttle1.carl.main.Global;
@@ -27,11 +28,12 @@ public final class Carl extends GameObject{
 	private boolean attacking;
 	
 	private boolean hit = false;
+	private boolean dead = false;
 	private int hitTimer;
 	
 	private static final int W_BITE = 1;
 	private int weapon = 0;
-	
+
 	public Carl(Game window, int x, int y) {
 		super(window);
 		this.x = x;
@@ -39,6 +41,15 @@ public final class Carl extends GameObject{
 		this.currentAnimation = Sprites.carlIdle(tie);
 		this.id = ObjectId.Player;
 		this.flipped = true;
+	}
+	public Carl(Game window, int x, int y, boolean tie) {
+		super(window);
+		this.x = x;
+		this.y = y;
+		this.currentAnimation = Sprites.carlIdle(tie);
+		this.id = ObjectId.Player;
+		this.flipped = true;
+		this.tie = tie;
 	}
 
 	@Override
@@ -49,13 +60,23 @@ public final class Carl extends GameObject{
 		}
 		determineSwimming();
 		moveCamera();
-		move();
+		if(dead)
+		{
+			dead();
+		}
+		else
+		{
+			move();
+		}
 		collideWithGround();
-		attack();
+		if(!dead)
+		{
+			attack();
+		}
 		if(hit)
 		{
 			hitTimer++;
-			if(hitTimer>12)
+			if(hitTimer>12 && !dead)
 			{
 				hitTimer = 0;
 				hit = false;
@@ -63,6 +84,22 @@ public final class Carl extends GameObject{
 		}
 	}
 
+	private void dead()
+	{
+		if(this.getFrame(0)<=2)
+		{
+			AudioHandler.stopMusic();
+		}
+		this.currentAnimation = Sprites.carlDie(tie);
+		if(this.getFrame(0)>=17)
+		{
+			this.setFrame(0, 17);
+		}
+		if(hitTimer>24)
+		{
+			om.resetToCheckpoint();
+		}
+	}
 	public boolean getHit()
 	{
 		return hit;
@@ -93,6 +130,12 @@ public final class Carl extends GameObject{
 			if(tie)
 			{
 				this.tie = false;
+			}
+			else if(!dead)
+			{
+
+				setFrame(0,0);
+				this.dead = true;
 			}
 		}
 		if(this.hitTimer==11)
@@ -361,7 +404,7 @@ public final class Carl extends GameObject{
 	}
 	@Override
 	public void render(Graphics g) {
-		if(!hit || hitTimer%6<3)
+		if(!hit || dead || hitTimer%6<3)
 		{
 			if(flipped)
 			{
@@ -426,6 +469,10 @@ public final class Carl extends GameObject{
 			attack = 9999;
 		}
 		return attack;
+	}
+	public void setTie(boolean tie)
+	{
+		this.tie = tie;
 	}
 	public Rectangle attackBounds()
 	{

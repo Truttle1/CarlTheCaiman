@@ -33,6 +33,8 @@ public final class OverworldMode extends GameMode
 		testRoom.loadStage();
 		testRoom.addPlayer(200, 2500);
 		ty = 2500;
+		Global.checkpointRoom = testRoom;
+		Global.checkpointRoomId = testRoom.getId();
 	}
 
 	@Override
@@ -113,6 +115,13 @@ public final class OverworldMode extends GameMode
 		}
 		for(int i=0; i<objects.size();i++)
 		{
+			if(objects.get(i).getId() == ObjectId.Checkpoint)
+			{
+				objects.get(i).render(g);
+			}
+		}
+		for(int i=0; i<objects.size();i++)
+		{
 			if(objects.get(i).getId() == ObjectId.Player)
 			{
 				objects.get(i).render(g);
@@ -148,5 +157,20 @@ public final class OverworldMode extends GameMode
 	public void setCurrentRoom(int croom)
 	{
 		currentRoom = croom;
+	}
+	public void resetToCheckpoint()
+	{
+		for(int j=0; j<10; j++)
+		{
+			for(int i=0; i<objects.size(); i++)
+			{
+				objects.remove(i);
+			}
+		}
+		Global.checkpointRoom.loadStage();
+		Global.checkpointRoom.addPlayer(Global.checkpointX, Global.checkpointY,false);
+
+		AudioHandler.playMusic(Global.checkpointRoom.getMusic());
+		System.out.println(Global.checkpointRoom.getMusic());
 	}
 }

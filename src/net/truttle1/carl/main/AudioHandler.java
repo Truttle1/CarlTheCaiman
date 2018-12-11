@@ -50,6 +50,8 @@ public class AudioHandler {
 	public static void stopMusic()
 	{
 		music.stop();
+		currentMusic = null;
+		int a = (Integer) null;
 	}
 
 	public static void playMusicAtPosition(File sound, long pos)

@@ -28,6 +28,8 @@ public class Sprites {
 	public static BufferedImage[] carlBite(boolean tie) {if(tie)return carlBite[0];else return carlBite[1];}
 	private static BufferedImage[][] carlHit;
 	public static BufferedImage[] carlHit(boolean tie) {if(tie)return carlHit[0];else return carlHit[1];}
+	private static BufferedImage[][] carlDie;
+	public static BufferedImage[] carlDie(boolean tie) {if(tie)return carlDie[0];else return carlDie[1];}
 
 	private static BufferedImage[] ground;
 	public static BufferedImage[] ground() {return ground;}
@@ -44,6 +46,9 @@ public class Sprites {
 	private static BufferedImage[] poof;
 	public static BufferedImage[] poof() {return poof;}
 	
+	private static BufferedImage[] checkpoint;
+	public static BufferedImage[] checkpoint() {return checkpoint;}
+	
 	private static BufferedImage[] coconut;
 	public static BufferedImage[] coconut() {return coconut;}
 	
@@ -59,6 +64,7 @@ public class Sprites {
 			flowingWater = loadAnimation("/img/blocks/flowwater", 24, window);
 			coconut = loadAnimation("/img/enemy/coconut/coconut1", 24, window);
 			poof = loadAnimation("/img/eyecandy/poof", 10, window);
+			checkpoint = loadAnimation("/img/flag/flag", 2, window);
 			
 			carlIdle = loadCarlSprite("/img/carl/idle/idle", 24, window);
 			carlRun = loadCarlSprite("/img/carl/run/run", 16, window);
@@ -67,6 +73,7 @@ public class Sprites {
 			carlSwim = loadCarlSprite("/img/carl/swim/swim", 12, window);
 			carlBite = loadCarlSprite("/img/carl/chomp/chomp", 12, window);
 			carlHit = loadCarlSprite("/img/carl/hit/hit", 6, window);
+			carlDie = loadCarlSprite("/img/carl/die/die", 18, window);
 
 		}
 		catch(Exception e) {e.printStackTrace();}
