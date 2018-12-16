@@ -35,6 +35,10 @@ public class Sprites {
 	public static BufferedImage[] ground() {return ground;}
 	private static BufferedImage[] grass;
 	public static BufferedImage[] grass() {return grass;}
+	private static BufferedImage[] ground2;
+	public static BufferedImage[] ground2() {return ground2;}
+	private static BufferedImage[] grass2;
+	public static BufferedImage[] grass2() {return grass2;}
 	private static BufferedImage[] sand;
 	public static BufferedImage[] sand() {return sand;}
 	private static BufferedImage[] stone;
@@ -45,12 +49,27 @@ public class Sprites {
 	public static BufferedImage[] flowingWater() {return flowingWater;}
 	private static BufferedImage[] poof;
 	public static BufferedImage[] poof() {return poof;}
-	
+
 	private static BufferedImage[] checkpoint;
 	public static BufferedImage[] checkpoint() {return checkpoint;}
-	
+	private static BufferedImage[] palmTree;
+	public static BufferedImage[] palmTree() {return palmTree;}
+	private static BufferedImage[] money;
+	public static BufferedImage[] money() {return money;}
+
 	private static BufferedImage[] coconut;
 	public static BufferedImage[] coconut() {return coconut;}
+	private static BufferedImage[] crab;
+	public static BufferedImage[] crab() {return crab;}
+	private static BufferedImage[] crabJump;
+	public static BufferedImage[] crabJump() {return crabJump;}
+	private static BufferedImage[] fish;
+	public static BufferedImage[] fish() {return fish;}
+
+	private static BufferedImage[] arrowRight;
+	public static BufferedImage[] arrowRight() {return arrowRight;}
+	private static BufferedImage[] arrowLeft;
+	public static BufferedImage[] arrowLeft() {return arrowLeft;}
 	
 	public static void loadOverworldAnimations(Game window)
 	{
@@ -58,6 +77,8 @@ public class Sprites {
 		{
 			ground = loadAnimation("/img/blocks/ground", 1, window);
 			grass = loadAnimation("/img/blocks/grass", 1, window);
+			ground2 = loadAnimation("/img/blocks/ground2", 1, window);
+			grass2 = loadAnimation("/img/blocks/grass2", 1, window);
 			sand = loadAnimation("/img/blocks/sand", 1, window);
 			stone = loadAnimation("/img/blocks/stone", 1, window);
 			water = loadAnimation("/img/blocks/water1", 1, window);
@@ -65,6 +86,11 @@ public class Sprites {
 			coconut = loadAnimation("/img/enemy/coconut/coconut1", 24, window);
 			poof = loadAnimation("/img/eyecandy/poof", 10, window);
 			checkpoint = loadAnimation("/img/flag/flag", 2, window);
+			fish = loadAnimation("/img/enemy/fish/fish1", 12, window);
+			palmTree = loadAnimation("/img/bg/palmtree", 1, window);
+			money = loadAnimation("/img/good/money", 1, window);
+			arrowLeft = loadAnimation("/img/arrowleft/arrow", 24, window);
+			arrowRight = loadAnimation("/img/arrowright/arrow", 24, window);
 			
 			carlIdle = loadCarlSprite("/img/carl/idle/idle", 24, window);
 			carlRun = loadCarlSprite("/img/carl/run/run", 16, window);

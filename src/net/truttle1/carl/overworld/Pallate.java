@@ -4,6 +4,7 @@ import java.awt.Color;
 
 public class Pallate {
 	public static final Color GRASS = new Color(0,255,0);
+	public static final Color GRASS2 = new Color(0,255,255);
 	public static final Color SAND = new Color(255,255,0);
 	public static final Color SAND2 = new Color(177,177,50);
 	public static final Color STONE = new Color(127,127,127);
@@ -11,5 +12,8 @@ public class Pallate {
 	public static final Color WATER = new Color(0,0,255);
 	public static final Color CHECKPOINT = new Color(255,255,255);
 	
+	public static final Color BACKGROUND1 = new Color(0,127,0);
+
 	public static final Color MONSTER1 = new Color(255,0,255);
+	public static final Color MONSTER2 = new Color(127,51,0);
 }

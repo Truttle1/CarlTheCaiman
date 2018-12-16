@@ -4,11 +4,15 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 import net.truttle1.carl.blocks.Grass;
+import net.truttle1.carl.blocks.PassthroughGrass;
 import net.truttle1.carl.blocks.Sand;
 import net.truttle1.carl.blocks.Stone;
 import net.truttle1.carl.blocks.Water;
 import net.truttle1.carl.enemies.Coconut;
+import net.truttle1.carl.enemies.Fish;
 import net.truttle1.carl.main.AudioHandler;
+import net.truttle1.carl.main.Game;
+import net.truttle1.carl.main.GameObject;
 import net.truttle1.carl.main.Global;
 import net.truttle1.carl.main.Theme;
 
@@ -50,7 +54,7 @@ public class Room {
 	}
 	public void addPlayer(int x, int y, boolean tie)
 	{
-		Carl player = new Carl(om.getGame(),x,y,false);
+		Carl player = new Carl(om.getGame(),x,y,tie);
 		om.addObject(player);
 	}
 	public Theme getTheme()
@@ -70,6 +74,10 @@ public class Room {
 					if(stage.getRGB(x,y) == Pallate.GRASS.getRGB())
 					{
 						om.addObject(new Grass(x,y,om.getGame(),om));
+					}
+					if(stage.getRGB(x,y) == Pallate.GRASS2.getRGB())
+					{
+						om.addObject(new PassthroughGrass(x,y,om.getGame(),om));
 					}
 					if(stage.getRGB(x,y) == Pallate.STONE.getRGB())
 					{
@@ -95,10 +103,19 @@ public class Room {
 					{
 						om.addObject(new Coconut(om.getGame(),x,y));
 					}
+					if(stage.getRGB(x,y) == Pallate.MONSTER2.getRGB())
+					{
+						om.addObject(new Fish(om.getGame(),x,y));
+						om.addObject(new Water(x,y,om.getGame(),om));
+					}
 					if(stage.getRGB(x,y) == Pallate.CHECKPOINT.getRGB())
 					{
 						om.addObject(new Checkpoint(om.getGame(),x,y,checkpointIds));
 						checkpointIds++;
+					}
+					if(stage.getRGB(x,y) == Pallate.BACKGROUND1.getRGB())
+					{
+						om.addObject(new BackgroundDecoration(om.getGame(),x,y,Sprites.palmTree()));
 					}
 				}
 			}
@@ -132,6 +149,14 @@ public class Room {
 				
 			}
 		}*/
+	}
+	public void addObject(GameObject g)
+	{
+		om.addObject(g);
+	}
+	public Game getGame()
+	{
+		return om.getGame();
 	}
 	
 	public int getWidth()

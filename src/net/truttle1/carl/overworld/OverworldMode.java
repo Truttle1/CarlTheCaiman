@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import net.truttle1.carl.main.AudioHandler;
@@ -20,21 +21,27 @@ public final class OverworldMode extends GameMode
 	private int tx;
 	private int ty;
 	private int currentRoom;
-	private Room testRoom;
+	public static Room beach1;
+	public static Room beach2;
+	public static Room beach3;
 	private BufferedImage background;
 	private BufferedImage tropicalBackground;
 	public OverworldMode(Game window) 
 	{
 		super(window);
 		tropicalBackground = window.getImageLoad().loadImage("/img/bg/tropical_00001.png");
-		
-		BufferedImage tr = window.getImageLoad().loadImage("/room/test.png");
-		testRoom = new Room(tr,this,false,null,Theme.Tropical,0,AudioHandler.TROPICAL_THEME);
-		testRoom.loadStage();
-		testRoom.addPlayer(200, 2500);
+
+		BufferedImage b = window.getImageLoad().loadImage("/room/beach1.png");
+		BufferedImage b2 = window.getImageLoad().loadImage("/room/beach2.png");
+		BufferedImage b3 = window.getImageLoad().loadImage("/room/beach3.png");
+		beach1 = new Room(b,this,false,null,Theme.Tropical,0,AudioHandler.TROPICAL_THEME);
+		beach2 = new Room(b2,this,false,null,Theme.Tropical,1,AudioHandler.TROPICAL_THEME);
+		beach3 = new Room(b2,this,false,null,Theme.Tropical,2,AudioHandler.TROPICAL_THEME);
+		beach1.loadStage();
+		beach1.addPlayer(200, 2500);
 		ty = 2500;
-		Global.checkpointRoom = testRoom;
-		Global.checkpointRoomId = testRoom.getId();
+		Global.checkpointRoom = beach1;
+		Global.checkpointRoomId = beach1.getId();
 	}
 
 	@Override
@@ -87,14 +94,14 @@ public final class OverworldMode extends GameMode
 		//Draws Objects
 		for(int i=0; i<objects.size();i++)
 		{
-			if(objects.get(i).getId() == ObjectId.Ground)
+			if(objects.get(i).getId() == ObjectId.Ground || objects.get(i).getId() == ObjectId.Water)
 			{
 				objects.get(i).render(g);
 			}
 		}
 		for(int i=0; i<objects.size();i++)
 		{
-			if(objects.get(i).getId() == ObjectId.Water)
+			if(objects.get(i).getId() == ObjectId.Background)
 			{
 				objects.get(i).render(g);
 			}
@@ -108,14 +115,7 @@ public final class OverworldMode extends GameMode
 		}
 		for(int i=0; i<objects.size();i++)
 		{
-			if(objects.get(i).getId() == ObjectId.EyeCandy)
-			{
-				objects.get(i).render(g);
-			}
-		}
-		for(int i=0; i<objects.size();i++)
-		{
-			if(objects.get(i).getId() == ObjectId.Checkpoint)
+			if(objects.get(i).getId() == ObjectId.EyeCandy || objects.get(i).getId() == ObjectId.Checkpoint)
 			{
 				objects.get(i).render(g);
 			}
@@ -127,7 +127,27 @@ public final class OverworldMode extends GameMode
 				objects.get(i).render(g);
 			}
 		}
+		for(int i=0; i<objects.size();i++)
+		{
+			if(objects.get(i).getId() == ObjectId.Warp)
+			{
+				objects.get(i).render(g);
+			}
+		}
 		g.translate(tx, ty);
+		g.drawImage(Sprites.money()[0],900,8,null);
+		g.setFont(Global.HUD_FONT);
+		g.setColor(Color.white);
+		g.drawString("$"+Global.money,880,80);
+		g.setColor(Color.green.darker());
+		g.drawString("$"+Global.money,878,78);
+		NumberFormat nf = NumberFormat.getInstance();
+		nf.setMinimumIntegerDigits(9);
+		nf.setGroupingUsed(false);
+		g.setFont(Global.BIG_FONT);
+		g.drawString(nf.format(Global.score) + "",100,55);
+		g.setColor(Color.white);
+		g.drawString(nf.format(Global.score) + "",98,53);
 	}
 	public ArrayList<GameObject> getObjects()
 	{

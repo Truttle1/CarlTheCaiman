@@ -56,11 +56,17 @@ public class Global {
 	public static final String OS = System.getProperty("os.name");
 	public static final Font TEXT_FONT = new Font("Corbel", Font.PLAIN, 24);
 	public static final Font BIG_FONT = new Font("Corbel", Font.BOLD, 72);
+	public static final Font HUD_FONT = new Font("Corbel", Font.BOLD, 36);
 
 	public static int checkpointX = 200;
 	public static int checkpointY = 2500;
 	public static int checkpointRoomId;
 	public static Room checkpointRoom;
 	public static int currentCheckpointId;
+
+	public static int money;
+	public static int score;
+	public static int checkpointMoney;
+	public static int checkpointScore;
 
 }

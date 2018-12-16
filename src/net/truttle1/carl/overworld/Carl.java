@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import net.truttle1.carl.blocks.Grass;
 import net.truttle1.carl.blocks.Water;
 import net.truttle1.carl.main.AudioHandler;
+import net.truttle1.carl.main.Fade;
 import net.truttle1.carl.main.Game;
 import net.truttle1.carl.main.GameObject;
 import net.truttle1.carl.main.Global;
@@ -82,14 +83,28 @@ public final class Carl extends GameObject{
 				hit = false;
 			}
 		}
+		if(this.y>Global.currentRoom.getHeight())
+		{
+			if(!dead)
+			{
+				setFrame(0,0);
+				this.dead = true;
+				this.hit = true;
+			}
+		}
 	}
 
 	private void dead()
 	{
+		Global.money -= (Math.abs(Global.money-Global.checkpointMoney)/6)+1;
+		Global.score -= (Math.abs(Global.score-Global.checkpointScore)/6)+1;
 		if(this.getFrame(0)<=2)
 		{
 			AudioHandler.stopMusic();
 		}
+		if(Global.score<Global.checkpointScore)Global.score = Global.checkpointScore;
+		if(Global.money<Global.checkpointMoney)Global.money = Global.checkpointMoney;
+		
 		this.currentAnimation = Sprites.carlDie(tie);
 		if(this.getFrame(0)>=17)
 		{
@@ -98,6 +113,8 @@ public final class Carl extends GameObject{
 		if(hitTimer>24)
 		{
 			om.resetToCheckpoint();
+			Global.money = Global.checkpointMoney;
+			Global.score = Global.checkpointScore;
 		}
 	}
 	public boolean getHit()
@@ -234,7 +251,10 @@ public final class Carl extends GameObject{
 	}
 	private void move()
 	{
-		x+=hVelocity;
+		if(!Fade.getRunning())
+		{
+			x+=hVelocity;
+		}
 		y+=vVelocity;
 		if(Global.leftDown && !blockedLeft && !attacking && !hit)
 		{
@@ -464,7 +484,7 @@ public final class Carl extends GameObject{
 		{
 			attack = 1;
 		}
-		if(attacking && this.getFrame(0)<6)
+		if(attacking && this.getFrame(0)<6 && this.getFrame(0)>3)
 		{
 			attack = 9999;
 		}
@@ -491,5 +511,8 @@ public final class Carl extends GameObject{
 		{
 			return new Rectangle(x+100,y,50,50);
 		}
+	}
+	public boolean getTie() {
+		return tie;
 	}
 }

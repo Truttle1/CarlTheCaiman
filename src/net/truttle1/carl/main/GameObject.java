@@ -6,6 +6,9 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import net.truttle1.carl.overworld.Carl;
+import net.truttle1.carl.overworld.OverworldMode;
+
 public abstract class GameObject {
 	protected Game window;
 	protected int x;
@@ -258,4 +261,13 @@ public abstract class GameObject {
 		return id;
 	}
 	public boolean getFlipped() {return flipped;}
+	
+
+	protected int getDistanceTo(GameObject obj)
+	{
+		if(obj == null)return Integer.MAX_VALUE;
+		int x1 = Math.abs(this.x-obj.getX());
+		int y1 = Math.abs(this.y-obj.getY());
+		return (int)(Math.sqrt(Math.pow(x1,2)+Math.pow(y1,2)));
+	}
 }

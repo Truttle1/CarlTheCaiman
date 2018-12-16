@@ -73,6 +73,7 @@ public final class Game extends Canvas implements Runnable
 	}
 	public void tick()
 	{
+		Fade.tick();
 		if(mode == ModeType.Overworld)
 		{
 			if(overworldMode == null)
@@ -129,6 +130,7 @@ public final class Game extends Canvas implements Runnable
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 		g = bs.getDrawGraphics();
+		
 		if(mode == ModeType.Overworld && overworldMode != null)
 		{
 			overworldMode.render(g);
@@ -139,6 +141,7 @@ public final class Game extends Canvas implements Runnable
 			g.setFont(Global.BIG_FONT);
 			g.drawString("Loading...", 64, 64);
 		}
+		Fade.render(g);
 		g.dispose();
 		bs.show();
 	}

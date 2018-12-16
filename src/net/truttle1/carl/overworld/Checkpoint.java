@@ -39,6 +39,9 @@ public class Checkpoint extends GameObject{
 		if(Global.checkpointX != this.x)
 		{
 			carl.setTie(true);
+			Global.score += 500;
+			Global.checkpointScore = Global.score;
+			Global.checkpointMoney = Global.money;
 		}
 		Global.checkpointX = this.x;
 		Global.currentCheckpointId = this.checkpointId;

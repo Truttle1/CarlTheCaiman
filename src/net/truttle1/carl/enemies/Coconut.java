@@ -8,8 +8,10 @@ import java.awt.Rectangle;
 import net.truttle1.carl.main.EyeCandy;
 import net.truttle1.carl.main.Game;
 import net.truttle1.carl.main.GameObject;
+import net.truttle1.carl.main.Global;
 import net.truttle1.carl.main.ObjectId;
 import net.truttle1.carl.overworld.Carl;
+import net.truttle1.carl.overworld.Money;
 import net.truttle1.carl.overworld.Sprites;
 
 public class Coconut extends GameObject{
@@ -141,6 +143,8 @@ public class Coconut extends GameObject{
 			if(deathTimer>6)
 			{
 				this.finallyDead = true;
+				Global.score += 100;
+				window.getOverworldMode().addObject(new Money(window,this.x+30,this.y));
 			}
 		}
 	}
