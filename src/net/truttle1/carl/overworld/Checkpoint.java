@@ -45,7 +45,7 @@ public class Checkpoint extends GameObject{
 		}
 		Global.checkpointX = this.x;
 		Global.currentCheckpointId = this.checkpointId;
-		Global.checkpointY = carl.getY();
+		Global.checkpointY = this.y;
 		Global.checkpointRoom = Global.currentRoom;
 		Global.checkpointRoomId = Global.currentRoom.getId();
 	}

@@ -15,6 +15,9 @@ public class AudioHandler {
 	public static int clipTime;
 	
 	public static final File TROPICAL_THEME  = new File("res/music/tropical.wav");
+	public static final File TALK  = new File("res/audio/talk0.wav");
+
+	public static final File FOREST_THEME = new File("res/music/forest.wav");
 	private static File currentMusic = null;
 
 	public static File getMusic()
@@ -28,18 +31,18 @@ public class AudioHandler {
 	public static Clip[] speechClips = new Clip[10];
 	public static void init()
 	{
-		/*
+		
 		for(int i=0;i<10;i++)
 		{
 			try {
-				AudioInputStream audioIn = AudioSystem.getAudioInputStream(talk0);
+				AudioInputStream audioIn = AudioSystem.getAudioInputStream(TALK);
 				speechClips[i] = AudioSystem.getClip();
 				speechClips[i].open(audioIn);
 			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}*/
+		}
 	}
 	private static ArrayList<Clip> effectsOld = new ArrayList<Clip>();
 	private static ArrayList<Clip> effects = new ArrayList<Clip>();
@@ -150,6 +153,10 @@ public class AudioHandler {
 	}
 	public static void playSoundSpeech(int soundToPlay)
 	{
+		if(speechClips[0] == null)
+		{
+			init();
+		}
 		speechClips[soundToPlay%10].setMicrosecondPosition(0);
 		speechClips[soundToPlay%10].start();
 	}

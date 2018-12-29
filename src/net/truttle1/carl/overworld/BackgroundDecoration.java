@@ -29,6 +29,10 @@ public class BackgroundDecoration extends GameObject{
 		{
 			this.animate(x, y-15, currentAnimation, 0, g);
 		}
+		else if(this.currentAnimation.equals(Sprites.house1()))
+		{
+			this.animate(x, y-15, currentAnimation, 0, g);
+		}
 		else
 		{
 			this.animate(x, y, currentAnimation, 0, g);

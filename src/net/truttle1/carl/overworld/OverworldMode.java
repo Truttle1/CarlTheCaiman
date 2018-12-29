@@ -21,24 +21,57 @@ public final class OverworldMode extends GameMode
 	private int tx;
 	private int ty;
 	private int currentRoom;
+	//Beach World
 	public static Room beach1;
 	public static Room beach2;
 	public static Room beach3;
+	public static Room beach4;
+	public static Room beach5;
+	public static Room beach6;
+	public static Room beach7;
+	public static Room turtleIsland;
+	
+	//Forest World
+	public static Room forest1;
+	public static Room drakon;
+	
 	private BufferedImage background;
 	private BufferedImage tropicalBackground;
+	private BufferedImage forestBackground;
 	public OverworldMode(Game window) 
 	{
 		super(window);
 		tropicalBackground = window.getImageLoad().loadImage("/img/bg/tropical_00001.png");
+		forestBackground = window.getImageLoad().loadImage("/img/bg/forest_00001.png");
 
 		BufferedImage b = window.getImageLoad().loadImage("/room/beach1.png");
 		BufferedImage b2 = window.getImageLoad().loadImage("/room/beach2.png");
 		BufferedImage b3 = window.getImageLoad().loadImage("/room/beach3.png");
+		BufferedImage b4 = window.getImageLoad().loadImage("/room/beach4.png");
+		BufferedImage b5 = window.getImageLoad().loadImage("/room/beach5.png");
+		BufferedImage b6 = window.getImageLoad().loadImage("/room/beach6.png");
+		BufferedImage b7 = window.getImageLoad().loadImage("/room/beach7.png");
+		BufferedImage ti = window.getImageLoad().loadImage("/room/turtleisland1.png");
+		BufferedImage dk = window.getImageLoad().loadImage("/room/drakon1.png");
+		BufferedImage f1 = window.getImageLoad().loadImage("/room/forest1.png");
 		beach1 = new Room(b,this,false,null,Theme.Tropical,0,AudioHandler.TROPICAL_THEME);
 		beach2 = new Room(b2,this,false,null,Theme.Tropical,1,AudioHandler.TROPICAL_THEME);
-		beach3 = new Room(b2,this,false,null,Theme.Tropical,2,AudioHandler.TROPICAL_THEME);
-		beach1.loadStage();
-		beach1.addPlayer(200, 2500);
+		beach3 = new Room(b3,this,false,null,Theme.Tropical,2,AudioHandler.TROPICAL_THEME);
+		turtleIsland = new Room(ti,this,false,null,Theme.Tropical,3,AudioHandler.TROPICAL_THEME);
+		beach4 = new Room(b4,this,false,null,Theme.Tropical,4,AudioHandler.TROPICAL_THEME);
+		beach5 = new Room(b5,this,false,null,Theme.Tropical,5,AudioHandler.TROPICAL_THEME);
+		beach6 = new Room(b6,this,false,null,Theme.Tropical,6,AudioHandler.TROPICAL_THEME);
+		beach7 = new Room(b7,this,false,null,Theme.Tropical,7,AudioHandler.TROPICAL_THEME);
+		drakon = new Room(dk,this,false,null,Theme.Forest,8,AudioHandler.FOREST_THEME);
+		try
+		{
+			window.load();
+		}
+		catch(Exception e)
+		{
+			beach1.loadStage();
+			beach1.addPlayer(200, 2500);
+		}
 		ty = 2500;
 		Global.checkpointRoom = beach1;
 		Global.checkpointRoomId = beach1.getId();
@@ -54,6 +87,10 @@ public final class OverworldMode extends GameMode
 		if(Global.currentRoom.getTheme() == Theme.Tropical)
 		{
 			background = tropicalBackground;
+		}
+		if(Global.currentRoom.getTheme() == Theme.Forest)
+		{
+			background = forestBackground;
 		}
 	}
 	//getTx and getTy return the location of the viewport.
@@ -86,6 +123,16 @@ public final class OverworldMode extends GameMode
 			g.translate(0,ty);
 			
 		}
+		if(Global.currentRoom.getTheme() == Theme.Forest)
+		{
+			g.setColor(new Color(0xC1FFE7));
+			g.fillRect(0,0,1500,640);
+			g.setColor(new Color(0x239E46));
+			g.translate(0,-ty);
+			g.fillRect(0,Global.currentRoom.getHeight()-200,1500,450);
+			g.translate(0,ty);
+			
+		}
 		Graphics2D g2d = (Graphics2D) g;			
 		g.translate((int) ((-0.5*(tx))%1138), -ty);
 		g.drawImage(background,0,Global.currentRoom.getHeight()-800,null);
@@ -94,7 +141,7 @@ public final class OverworldMode extends GameMode
 		//Draws Objects
 		for(int i=0; i<objects.size();i++)
 		{
-			if(objects.get(i).getId() == ObjectId.Ground || objects.get(i).getId() == ObjectId.Water)
+			if(objects.get(i).getId() == ObjectId.Ground || objects.get(i).getId() == ObjectId.Water || objects.get(i).getId() == ObjectId.Cloud)
 			{
 				objects.get(i).render(g);
 			}

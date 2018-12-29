@@ -65,9 +65,14 @@ public final class Carl extends GameObject{
 		{
 			dead();
 		}
-		else
+		else if(Global.canMove)
 		{
 			move();
+		}
+		else
+		{
+			this.currentAnimation = Sprites.carlIdle(tie);
+			hVelocity = 0;
 		}
 		collideWithGround();
 		if(!dead)
@@ -123,7 +128,7 @@ public final class Carl extends GameObject{
 	}
 	public void enemyCollision(GameObject enemy)
 	{
-		if(!hit)
+		if(!hit && !dead)
 		{
 			System.out.println(!(enemy.getHVelocity()>0 && this.hVelocity>0));
 			System.out.println(!(enemy.getHVelocity()<0 && this.hVelocity<0));
@@ -155,7 +160,7 @@ public final class Carl extends GameObject{
 				this.dead = true;
 			}
 		}
-		if(this.hitTimer==11)
+		if(this.hitTimer==11 && !dead)
 		{
 			this.hitTimer = 0;
 		}
@@ -163,7 +168,7 @@ public final class Carl extends GameObject{
 	}
 	private void attack()
 	{
-		if(Global.xPressed && !attacking && vVelocity<=0)
+		if(Global.xPressed && !attacking && (vVelocity<=0 || swimming))
 		{
 			//this.hVelocity = 0;
 			this.setFrame(0, 0);
@@ -328,7 +333,7 @@ public final class Carl extends GameObject{
 		{
 			vVelocity /= 1.5;
 		}
-		if(swimming && !onGround)
+		if(swimming && !onGround && !attacking)
 		{
 			if((this.getFrame(0)>12) || (Math.abs(hVelocity) <= 3 && vVelocity >= 0))
 			{
@@ -336,17 +341,17 @@ public final class Carl extends GameObject{
 			}
 			this.currentAnimation = Sprites.carlSwim(tie);
 		}
-		else if(!onGround && vVelocity>0)
+		else if(!onGround && vVelocity>0 && !attacking)
 		{
 			this.currentAnimation = Sprites.carlJump(tie);
 			this.setFrame(0, 1);
 		}
-		else if(!onGround && vVelocity<=0)
+		else if(!onGround && vVelocity<=0 && !attacking)
 		{
 			this.currentAnimation = Sprites.carlJump(tie);
 			this.setFrame(0, 0);
 		}
-		else if(onGround)
+		else if(onGround && !attacking)
 		{
 			if(skidding && ((hVelocity>-6 && Global.leftDown) ||(hVelocity<6 && Global.rightDown)))
 			{
@@ -487,6 +492,10 @@ public final class Carl extends GameObject{
 		if(attacking && this.getFrame(0)<6 && this.getFrame(0)>3)
 		{
 			attack = 9999;
+		}
+		if(dead)
+		{
+			attack = 0;
 		}
 		return attack;
 	}

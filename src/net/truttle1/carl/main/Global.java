@@ -68,5 +68,11 @@ public class Global {
 	public static int score;
 	public static int checkpointMoney;
 	public static int checkpointScore;
+	public static int talkSound;
+
+	public static int[] events = new int[999];
+	public static int[] inventory = new int[4];
+	
+	public static boolean canMove = true;
 
 }

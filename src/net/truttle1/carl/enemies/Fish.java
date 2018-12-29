@@ -13,12 +13,14 @@ import net.truttle1.carl.main.ObjectId;
 import net.truttle1.carl.overworld.Carl;
 import net.truttle1.carl.overworld.Money;
 import net.truttle1.carl.overworld.Sprites;
+import net.truttle1.carl.overworld.Tie;
 
 public class Fish extends GameObject{
 
 	private boolean dead;
 	private int deathTimer;
 	private boolean finallyDead = false;
+	private boolean carlHasTie = false;
 	public Fish(Game window, int x, int y) {
 		super(window);
 		//Sets up the enemy's location, animation, id, and speed.
@@ -131,7 +133,15 @@ public class Fish extends GameObject{
 			}
 			if(deathTimer>6)
 			{
-				window.getOverworldMode().addObject(new Money(window,this.x+30,this.y));
+
+				if(!carlHasTie && Math.random()<.25)
+				{
+					window.getOverworldMode().addObject(new Tie(window,this.x+30,this.y));
+				}
+				else
+				{
+					window.getOverworldMode().addObject(new Money(window,this.x+30,this.y));
+				}
 				this.finallyDead = true;
 				Global.score += 100;
 			}
@@ -161,6 +171,7 @@ public class Fish extends GameObject{
 		//Die if the player attacks
 		if(this.getBounds().intersects(carl.attackBounds()) && carl.getAttack()>0 && carl.getAttack()<9999)
 		{
+			this.carlHasTie = carl.getTie();
 			die();
 		}
 		else if(this.getBounds().intersects(carl.getBounds()) && !dead && carl.getAttack()<9999)

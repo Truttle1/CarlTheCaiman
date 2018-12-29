@@ -8,7 +8,14 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -74,6 +81,7 @@ public final class Game extends Canvas implements Runnable
 	public void tick()
 	{
 		Fade.tick();
+		SpeechBubble.tick();
 		if(mode == ModeType.Overworld)
 		{
 			if(overworldMode == null)
@@ -108,6 +116,73 @@ public final class Game extends Canvas implements Runnable
 		Global.leftReleased = false;
 		Global.rightReleased = false;
 	}
+	public void save(int x, int y)
+	{
+
+		try (Writer writer = new BufferedWriter(new OutputStreamWriter( new FileOutputStream("file1.txt"), "utf-8"))) 
+		{
+			writer.write("RM," + Global.currentRoom.getId() + "\n");
+			for(int i=0; i<Global.events.length; i++)
+			{
+				writer.write("EV," + i + "," + Global.events[i] + "\n");
+			}
+			writer.write("PLR," + x + "," + y + "\n");
+			writer.write("SCR," + Global.score + "\n");
+			writer.write("MON," + Global.money + "\n");
+			for(int i=0; i<Global.inventory.length; i++)
+			{
+				writer.write("INV," + i + "," + Global.inventory[i] + "\n");
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	public void load() throws NumberFormatException, IOException
+	{
+		Global.disableMovement = false;
+		Global.talking = 0;
+		Global.talkingTo = null;
+		String line = null;
+	    FileReader fileReader = new FileReader("file1.txt");
+	    BufferedReader bufferedReader = new BufferedReader(fileReader);
+	    while((line = bufferedReader.readLine()) != null) 
+	    {
+	    	String[] data = line.split(",");
+	        if(data[0].startsWith("EV"))
+	        {
+	            Global.events[Integer.parseInt(data[1])] = Integer.parseInt(data[2]);
+	        }
+	        if(data[0].startsWith("SCR"))
+	        {
+	            Global.score = Integer.parseInt(data[1]);
+	        }
+	        if(data[0].startsWith("MON"))
+	        {
+	            Global.money = Integer.parseInt(data[1]);
+	        }
+	        if(data[0].startsWith("INV"))
+	        {
+	            Global.inventory[Integer.parseInt(data[1])] = Integer.parseInt(data[2]);
+	        }
+	        if(data[0].startsWith("RM"))
+	        {
+		           if(Integer.parseInt(data[1]) == 3)
+		           {
+		            	this.overworldMode.turtleIsland.loadStage();
+		           }
+		           if(Integer.parseInt(data[1]) == 8)
+		           {
+		            	this.overworldMode.drakon.loadStage();
+		           }
+	        }
+	        if(data[0].startsWith("PLR"))
+	        {
+	            Global.currentRoom.addPlayer(Integer.parseInt(data[1]), Integer.parseInt(data[2]));;
+	        }
+	    }
+	}
 	public void render()
 	{
 
@@ -118,12 +193,12 @@ public final class Game extends Canvas implements Runnable
 		BufferStrategy bs = null;
 		try
 		{
-		bs = this.getBufferStrategy();
-		if (bs == null)
-		{
-			this.createBufferStrategy(3);
-			return;
-		}
+			bs = this.getBufferStrategy();
+			if (bs == null)
+			{
+				this.createBufferStrategy(3);
+				return;
+			}
 		}
 		catch(Exception e) {System.out.println("THERE IS PROBLEM!!!");return;}
 		Graphics g = bs.getDrawGraphics();
@@ -142,6 +217,7 @@ public final class Game extends Canvas implements Runnable
 			g.drawString("Loading...", 64, 64);
 		}
 		Fade.render(g);
+		SpeechBubble.render(g);
 		g.dispose();
 		bs.show();
 	}
@@ -164,13 +240,6 @@ public final class Game extends Canvas implements Runnable
 		graphicsLoader.start();
 		this.addKeyListener(new KeyboardInput());
 		running = true;
-	}
-	public void load()
-	{
-
-		Global.disableMovement = false;
-		Global.talking = 0;
-		Global.talkingTo = null;
 	}
 	
 	public static void main(String[] args) throws IOException

@@ -43,6 +43,12 @@ public class Sprites {
 	public static BufferedImage[] sand() {return sand;}
 	private static BufferedImage[] stone;
 	public static BufferedImage[] stone() {return stone;}
+	private static BufferedImage[] platform;
+	public static BufferedImage[] platform() {return platform;}
+	private static BufferedImage[] cloud;
+	public static BufferedImage[] cloud() {return cloud;}
+	private static BufferedImage[] leaves;
+	public static BufferedImage[] leaves() {return leaves;}
 	private static BufferedImage[] water;
 	public static BufferedImage[] water() {return water;}
 	private static BufferedImage[] flowingWater;
@@ -54,17 +60,52 @@ public class Sprites {
 	public static BufferedImage[] checkpoint() {return checkpoint;}
 	private static BufferedImage[] palmTree;
 	public static BufferedImage[] palmTree() {return palmTree;}
+	private static BufferedImage[] house1;
+	public static BufferedImage[] house1() {return house1;}
 	private static BufferedImage[] money;
 	public static BufferedImage[] money() {return money;}
+	private static BufferedImage[] tie;
+	public static BufferedImage[] tie() {return tie;}
+	private static BufferedImage[] cIcon;
+	public static BufferedImage[] cIcon() {return cIcon;}
+	private static BufferedImage[] savePoint;
+	public static BufferedImage[] savePoint() {return savePoint;}
+
+	private static BufferedImage[] turtleIdle;
+	public static BufferedImage[] turtleIdle() {return turtleIdle;}
+	private static BufferedImage[] turtleTalk;
+	public static BufferedImage[] turtleTalk() {return turtleTalk;}
+	private static BufferedImage[] turtle2Idle;
+	public static BufferedImage[] turtle2Idle() {return turtle2Idle;}
+	private static BufferedImage[] turtle2Talk;
+	public static BufferedImage[] turtle2Talk() {return turtle2Talk;}
+	private static BufferedImage[] dragonIdle;
+	public static BufferedImage[] dragonIdle() {return dragonIdle;}
+	private static BufferedImage[] dragonTalk;
+	public static BufferedImage[] dragonTalk() {return dragonTalk;}
+	private static BufferedImage[] dragon2Idle;
+	public static BufferedImage[] dragon2Idle() {return dragon2Idle;}
+	private static BufferedImage[] dragon2Talk;
+	public static BufferedImage[] dragon2Talk() {return dragon2Talk;}
+	private static BufferedImage[] dragon4Idle;
+	public static BufferedImage[] dragon4Idle() {return dragon4Idle;}
+	private static BufferedImage[] dragon4Talk;
+	public static BufferedImage[] dragon4Talk() {return dragon4Talk;}
 
 	private static BufferedImage[] coconut;
 	public static BufferedImage[] coconut() {return coconut;}
+	private static BufferedImage[] coconut2;
+	public static BufferedImage[] coconut2() {return coconut2;}
+	private static BufferedImage[] coconutHit;
+	public static BufferedImage[] coconutHit() {return coconutHit;}
 	private static BufferedImage[] crab;
 	public static BufferedImage[] crab() {return crab;}
 	private static BufferedImage[] crabJump;
 	public static BufferedImage[] crabJump() {return crabJump;}
 	private static BufferedImage[] fish;
 	public static BufferedImage[] fish() {return fish;}
+	private static BufferedImage[] spike;
+	public static BufferedImage[] spike() {return spike;}
 
 	private static BufferedImage[] arrowRight;
 	public static BufferedImage[] arrowRight() {return arrowRight;}
@@ -80,17 +121,22 @@ public class Sprites {
 			ground2 = loadAnimation("/img/blocks/ground2", 1, window);
 			grass2 = loadAnimation("/img/blocks/grass2", 1, window);
 			sand = loadAnimation("/img/blocks/sand", 1, window);
+			cloud = loadAnimation("/img/blocks/cloud", 1, window);
+			leaves = loadAnimation("/img/blocks/leaves", 1, window);
 			stone = loadAnimation("/img/blocks/stone", 1, window);
 			water = loadAnimation("/img/blocks/water1", 1, window);
 			flowingWater = loadAnimation("/img/blocks/flowwater", 24, window);
-			coconut = loadAnimation("/img/enemy/coconut/coconut1", 24, window);
 			poof = loadAnimation("/img/eyecandy/poof", 10, window);
 			checkpoint = loadAnimation("/img/flag/flag", 2, window);
-			fish = loadAnimation("/img/enemy/fish/fish1", 12, window);
 			palmTree = loadAnimation("/img/bg/palmtree", 1, window);
+			house1 = loadAnimation("/img/bg/modernhouse", 1, window);
 			money = loadAnimation("/img/good/money", 1, window);
+			tie = loadAnimation("/img/good/tie", 1, window);
 			arrowLeft = loadAnimation("/img/arrowleft/arrow", 24, window);
 			arrowRight = loadAnimation("/img/arrowright/arrow", 24, window);
+			cIcon = loadAnimation("/img/c_icon/c", 24, window);
+			savePoint = loadAnimation("/img/blocks/savepoint", 1, window);
+			platform = loadAnimation("/img/blocks/platform", 1, window);
 			
 			carlIdle = loadCarlSprite("/img/carl/idle/idle", 24, window);
 			carlRun = loadCarlSprite("/img/carl/run/run", 16, window);
@@ -100,6 +146,26 @@ public class Sprites {
 			carlBite = loadCarlSprite("/img/carl/chomp/chomp", 12, window);
 			carlHit = loadCarlSprite("/img/carl/hit/hit", 6, window);
 			carlDie = loadCarlSprite("/img/carl/die/die", 18, window);
+
+			coconut = loadAnimation("/img/enemy/coconut/coconut1", 24, window);
+			coconut2 = loadAnimation("/img/enemy/coconut/coconut2", 24, window);
+			coconutHit = loadAnimation("/img/enemy/coconut/coconut1_hit", 1, window);
+			fish = loadAnimation("/img/enemy/fish/fish1", 12, window);
+			crab = loadAnimation("/img/enemy/crab/crab1", 12, window);
+			crabJump = loadAnimation("/img/enemy/crab/jump1", 2, window);
+			spike = loadAnimation("/img/blocks/spikes", 1, window);
+
+			dragonIdle = loadAnimation("/img/dragon/idle/idle", 24, window);
+			dragonTalk = loadAnimation("/img/dragon/talk/talk", 24, window);
+			dragon2Idle = loadAnimation("/img/dragon/idle2/idle", 24, window);
+			dragon2Talk = loadAnimation("/img/dragon/talk2/talk", 24, window);
+			dragon4Idle = loadAnimation("/img/dragon/idle4/idle", 24, window);
+			dragon4Talk = loadAnimation("/img/dragon/talk4/talk", 24, window);
+			
+			turtleIdle = loadAnimation("/img/npc/turtle/idle", 24, window);
+			turtle2Idle = loadAnimation("/img/npc/turtle/idle2", 24, window);
+			turtleTalk = loadAnimation("/img/npc/turtle/talk", 24, window);
+			turtle2Talk = loadAnimation("/img/npc/turtle/talk", 24, window);
 
 		}
 		catch(Exception e) {e.printStackTrace();}
