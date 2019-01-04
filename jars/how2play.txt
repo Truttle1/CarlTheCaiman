@@ -1,0 +1,11 @@
+Run CarlTheCaiman_recent.jar.
+If it gets stuck loading, try running with the command prompt using the command java -jar CarlTheCaiman_recent.jar. 
+(Note: The command prompt must be in the game's directory to use that command.)
+
+---
+what do
+---
+press buttons to move player.
+you are the green crocodilian guy.
+do not jump on enemies.
+press button that is one letter before y and one letter after w to attack.
