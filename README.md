@@ -1,5 +1,4 @@
 # Carl the Caiman: The Ten Dollar Bill of Glory
-<maruqee>HTML?</marquee>
 A game by Truttle1!
 
 ## PLOT
