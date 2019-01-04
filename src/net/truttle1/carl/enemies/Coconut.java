@@ -88,7 +88,7 @@ public class Coconut extends GameObject{
 		{
 			GameObject tempObject = window.getOverworldMode().getObject(i);
 			//Found a ground
-			if(tempObject.getId() == ObjectId.Ground)
+			if(tempObject.getId() == ObjectId.Ground || tempObject.getId() == ObjectId.Cloud)
 			{
 				//Turn if there is a crash
 				if(tempObject.getBounds().intersects(this.getBounds()))
@@ -170,7 +170,7 @@ public class Coconut extends GameObject{
 	private void playerCollision(Carl carl)
 	{
 		//Die if the player attacks
-		if(this.getBounds().intersects(carl.attackBounds()) && carl.getAttack()>0 && carl.getAttack()<9999)
+		if(this.getBounds().intersects(carl.attackBounds()) && carl.getAttack()>0 && carl.getAttack()<9999 && carl.getAttackDamage()>0)
 		{
 			die();
 		}

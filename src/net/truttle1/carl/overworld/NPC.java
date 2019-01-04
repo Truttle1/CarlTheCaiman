@@ -14,15 +14,30 @@ public class NPC extends GameObject{
 
 	private BufferedImage[] idleAnimation;
 	private BufferedImage[] talkAnimation;
-	private String dialogue;
+	private String[] dialogue;
+	private boolean[] carlTalking;
 	private boolean showTalkIcon = false;
-	public NPC(Game window, int x, int y, BufferedImage[] idle, BufferedImage[] talk, String d) {
+	public NPC(Game window, int x, int y, BufferedImage[] idle, BufferedImage[] talk, String... d) {
 		super(window);
 		this.idleAnimation = idle;
 		this.talkAnimation = talk;
 		this.x = x;
 		this.y = y;
-		this.dialogue = d;
+		dialogue = new String[d.length];
+		carlTalking = new boolean[d.length];
+		for(int i=0; i<d.length; i++)
+		{
+			if(d[i].startsWith("Carl: "))
+			{
+				d[i] = d[i].substring(5);
+				carlTalking[i] = true;
+			}
+			else
+			{
+				carlTalking[i] = false;
+			}
+			this.dialogue[i] = d[i];
+		}
 		this.id = ObjectId.Monster;
 	}
 
@@ -45,9 +60,25 @@ public class NPC extends GameObject{
 		{
 			this.flipped = false;
 		}
+		if(Global.talking %2==0 && Global.talkingTo == this && Global.talking != 0)
+		{
+			if(Global.talking/2>=dialogue.length || dialogue[Global.talking/2] == null)
+			{
+				Global.talkingTo = null;
+				Global.talking = 0;
+				Global.canMove = true;
+			}
+			else
+			{
+				Global.talking++;
+				Global.talkingTo = this;
+				Global.canMove = false;
+				SpeechBubble.talk(dialogue[Global.talking/2]);
+			}
+		}
 		if(c != null)
 		{
-			if(currentAnimation != null && this.getDistanceTo(c)<idleAnimation[1].getWidth() && Global.talking == 0)
+			if(idleAnimation != null && this.getDistanceTo(c)<idleAnimation[1].getWidth() && Global.talking == 0)
 			{
 				showTalkIcon = true;
 				if(Global.cPressed)
@@ -55,7 +86,7 @@ public class NPC extends GameObject{
 					Global.talking = 1;
 					Global.talkingTo = this;
 					Global.canMove = false;
-					SpeechBubble.talk(dialogue);
+					SpeechBubble.talk(dialogue[0]);
 				}
 			}
 			else
@@ -64,12 +95,6 @@ public class NPC extends GameObject{
 			}
 		}
 		
-		if(Global.talking == 2 && Global.talkingTo == this)
-		{
-			Global.talkingTo = null;
-			Global.talking = 0;
-			Global.canMove = true;
-		}
 	}
 
 	@Override

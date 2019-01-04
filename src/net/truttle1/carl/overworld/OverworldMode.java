@@ -33,16 +33,23 @@ public final class OverworldMode extends GameMode
 	
 	//Forest World
 	public static Room forest1;
+	public static Room forest2;
+	public static Room forest3;
+	public static Room forest4;
 	public static Room drakon;
+	public static Room store1;
+	public static Room store2;
 	
 	private BufferedImage background;
 	private BufferedImage tropicalBackground;
 	private BufferedImage forestBackground;
+	private BufferedImage storeBackground;
 	public OverworldMode(Game window) 
 	{
 		super(window);
 		tropicalBackground = window.getImageLoad().loadImage("/img/bg/tropical_00001.png");
 		forestBackground = window.getImageLoad().loadImage("/img/bg/forest_00001.png");
+		storeBackground = window.getImageLoad().loadImage("/img/bg/store_00001.png");
 
 		BufferedImage b = window.getImageLoad().loadImage("/room/beach1.png");
 		BufferedImage b2 = window.getImageLoad().loadImage("/room/beach2.png");
@@ -54,6 +61,11 @@ public final class OverworldMode extends GameMode
 		BufferedImage ti = window.getImageLoad().loadImage("/room/turtleisland1.png");
 		BufferedImage dk = window.getImageLoad().loadImage("/room/drakon1.png");
 		BufferedImage f1 = window.getImageLoad().loadImage("/room/forest1.png");
+		BufferedImage f2 = window.getImageLoad().loadImage("/room/forest2.png");
+		BufferedImage f3 = window.getImageLoad().loadImage("/room/forest3.png");
+		BufferedImage f4 = window.getImageLoad().loadImage("/room/forest4.png");
+		
+		BufferedImage st = window.getImageLoad().loadImage("/room/store.png");
 		beach1 = new Room(b,this,false,null,Theme.Tropical,0,AudioHandler.TROPICAL_THEME);
 		beach2 = new Room(b2,this,false,null,Theme.Tropical,1,AudioHandler.TROPICAL_THEME);
 		beach3 = new Room(b3,this,false,null,Theme.Tropical,2,AudioHandler.TROPICAL_THEME);
@@ -63,12 +75,21 @@ public final class OverworldMode extends GameMode
 		beach6 = new Room(b6,this,false,null,Theme.Tropical,6,AudioHandler.TROPICAL_THEME);
 		beach7 = new Room(b7,this,false,null,Theme.Tropical,7,AudioHandler.TROPICAL_THEME);
 		drakon = new Room(dk,this,false,null,Theme.Forest,8,AudioHandler.FOREST_THEME);
+		forest1 = new Room(f1,this,false,null,Theme.Forest,9,AudioHandler.FOREST_THEME);
+		forest2 = new Room(f2,this,false,null,Theme.Forest,10,AudioHandler.FOREST_THEME);
+		forest3 = new Room(f3,this,false,null,Theme.Forest,13,AudioHandler.FOREST_THEME);
+		forest4 = new Room(f4,this,false,null,Theme.Forest,14,AudioHandler.FOREST_THEME);
+
+		store1 = new Room(st,this,false,null,Theme.Store,11,AudioHandler.FOREST_THEME);
+		store2 = new Room(st,this,false,null,Theme.Store,12,AudioHandler.FOREST_THEME);
 		try
 		{
 			window.load();
 		}
 		catch(Exception e)
 		{
+			System.out.println(e);
+			e.printStackTrace();
 			beach1.loadStage();
 			beach1.addPlayer(200, 2500);
 		}
@@ -91,6 +112,10 @@ public final class OverworldMode extends GameMode
 		if(Global.currentRoom.getTheme() == Theme.Forest)
 		{
 			background = forestBackground;
+		}
+		if(Global.currentRoom.getTheme() == Theme.Store)
+		{
+			background = storeBackground;
 		}
 	}
 	//getTx and getTy return the location of the viewport.
@@ -133,11 +158,29 @@ public final class OverworldMode extends GameMode
 			g.translate(0,ty);
 			
 		}
+		if(Global.currentRoom.getTheme() == Theme.Store)
+		{
+			g.setColor(new Color(0xF7F7F7));
+			g.fillRect(0,0,1500,640);
+			g.setColor(new Color(0xF7F7F7));
+			g.translate(0,-ty);
+			g.fillRect(0,Global.currentRoom.getHeight()-200,1500,450);
+			g.translate(0,ty);
+			
+		}
 		Graphics2D g2d = (Graphics2D) g;			
-		g.translate((int) ((-0.5*(tx))%1138), -ty);
-		g.drawImage(background,0,Global.currentRoom.getHeight()-800,null);
-		g.translate((int) ((0.5*(tx))%1138), ty);
-		g.translate(-tx, -ty);
+		if(Global.currentRoom.getTheme() == Theme.Store)
+		{
+			g.drawImage(background,0,Global.currentRoom.getHeight()-700,null);
+			g.translate(-tx, -ty);
+		}
+		else
+		{
+			g.translate((int) ((-0.5*(tx))%1138), -ty);
+			g.drawImage(background,0,Global.currentRoom.getHeight()-800,null);
+			g.translate((int) ((0.5*(tx))%1138), ty);
+			g.translate(-tx, -ty);
+		}
 		//Draws Objects
 		for(int i=0; i<objects.size();i++)
 		{
@@ -195,6 +238,24 @@ public final class OverworldMode extends GameMode
 		g.drawString(nf.format(Global.score) + "",100,55);
 		g.setColor(Color.white);
 		g.drawString(nf.format(Global.score) + "",98,53);
+		
+		for(int i=0; i<Global.inventory.length; i++)
+		{
+			BufferedImage bi;
+			if(i==Global.currentCell)
+			{
+				bi = Sprites.inventory2()[0];
+			}
+			else
+			{
+				bi = Sprites.inventory()[0];
+			}
+			g.drawImage(bi,460+(i*80),10,null);
+			if(Global.inventory[i] != 0)
+			{
+				g.drawImage(Game.ITEM_LIST[Global.inventory[i]].getPicture(),470+(i*80),20,null);
+			}
+		}
 	}
 	public ArrayList<GameObject> getObjects()
 	{

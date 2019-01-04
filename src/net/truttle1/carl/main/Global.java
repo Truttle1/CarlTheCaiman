@@ -16,6 +16,10 @@ public class Global {
 	public static boolean cPressed;
 	public static boolean vDown;
 	public static boolean vPressed;
+	public static boolean aDown;
+	public static boolean aPressed;
+	public static boolean dDown;
+	public static boolean dPressed;
 
 	public static boolean upDown;
 	public static boolean upPressed;
@@ -56,6 +60,7 @@ public class Global {
 	public static final String OS = System.getProperty("os.name");
 	public static final Font TEXT_FONT = new Font("Corbel", Font.PLAIN, 24);
 	public static final Font BIG_FONT = new Font("Corbel", Font.BOLD, 72);
+	public static final Font SMALL_FONT = new Font("Corbel", Font.BOLD, 16);
 	public static final Font HUD_FONT = new Font("Corbel", Font.BOLD, 36);
 
 	public static int checkpointX = 200;
@@ -69,10 +74,14 @@ public class Global {
 	public static int checkpointMoney;
 	public static int checkpointScore;
 	public static int talkSound;
+	
+	public static int currentCell = 0;
 
 	public static int[] events = new int[999];
 	public static int[] inventory = new int[4];
 	
 	public static boolean canMove = true;
+	
+	public static final int EV_METSNAKE = 0;
 
 }

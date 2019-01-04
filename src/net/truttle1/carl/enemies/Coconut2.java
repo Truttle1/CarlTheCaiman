@@ -174,6 +174,7 @@ public class Coconut2 extends GameObject{
 			{
 				currentAnimation = Sprites.coconut();
 				hVelocity = 6;
+				harmed = false;
 			}
 			else
 			{
@@ -204,7 +205,7 @@ public class Coconut2 extends GameObject{
 	{
 		this.carlHasTie = carl.getTie();
 		//Die if the player attacks
-		if(this.getBounds().intersects(carl.attackBounds()) && carl.getAttack()>0 && carl.getAttack()<9999)
+		if(this.getBounds().intersects(carl.attackBounds()) && carl.getAttack()>0 && carl.getAttack()<9999  && carl.getAttackDamage()>0)
 		{
 			die(carl);
 		}
@@ -217,7 +218,7 @@ public class Coconut2 extends GameObject{
 	}
 	private void die(Carl c)
 	{
-		if(hp>1)
+		if(hp>1&&c.getAttackDamage()<hp)
 		{
 			this.harmed = true;
 			this.hp--;

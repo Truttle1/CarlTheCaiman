@@ -34,7 +34,7 @@ public class Money extends GameObject{
 					window.getOverworldMode().removeObject(this);
 				}
 			}
-			if(window.getOverworldMode().getObject(i).getId() == ObjectId.Ground)
+			if(window.getOverworldMode().getObject(i).getId() == ObjectId.Ground || window.getOverworldMode().getObject(i).getId() == ObjectId.Cloud)
 			{
 				if(window.getOverworldMode().getObject(i).getBounds().intersects(this.getBounds()))
 				{

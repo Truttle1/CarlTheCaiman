@@ -39,7 +39,6 @@ public class Water extends GameObject{
 				Grass g = (Grass)om.getObject(i);
 				if(g != null && g.getUnmodifiedX() == this.unmodifiedX & g.getUnmodifiedY() == this.unmodifiedY+1)
 				{
-					System.out.println("aaaaaa");
 					om.addObject(new Water(unmodifiedX,unmodifiedY+1,window,om));
 				}
 			}

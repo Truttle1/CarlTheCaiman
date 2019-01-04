@@ -56,7 +56,7 @@ public class SpeechBubble {
 			}
 			currentText = text.substring(0,amount);
 		}
-		if(Global.zPressed && Global.talking != 0)
+		if(Global.zPressed && Global.talking != 0 && Global.talking != 100)
 		{
 			if(amount<text.length())
 			{

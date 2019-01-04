@@ -26,6 +26,16 @@ public class KeyboardInput implements KeyListener{
 			Global.zDown = true;
 			Global.zPressed = true;
 		}
+		if(key == KeyEvent.VK_D && !Global.dDown)
+		{
+			Global.dDown = true;
+			Global.dPressed = true;
+		}
+		if(key == KeyEvent.VK_A && !Global.aDown)
+		{
+			Global.aDown = true;
+			Global.aPressed = true;
+		}
 		if(key == KeyEvent.VK_X && !Global.xDown)
 		{
 			Global.xDown = true;
@@ -105,6 +115,14 @@ public class KeyboardInput implements KeyListener{
 		{
 			Global.downDown = false;
 			Global.downReleased = true;
+		}
+		if(key == KeyEvent.VK_D)
+		{
+			Global.dDown = false;
+		}
+		if(key == KeyEvent.VK_A)
+		{
+			Global.aDown = false;
 		}
 	}
 

@@ -81,6 +81,33 @@ public abstract class GameObject {
 	{
 		return currentAnimation;
 	}
+	protected void animateUpsideDown(int x, int y,BufferedImage[] animation, int cFrame, Graphics g)
+	{
+		int tx = window.getOverworldMode().getTx();
+		int ty = window.getOverworldMode().getTy();
+		int roundedFrame = (int)(currentFrame[cFrame]/Global.FRAME_PER_IMG)*Global.FRAME_PER_IMG;
+		if(loadFrame(animation,roundedFrame) == null)
+		{
+			roundedFrame = 0;
+			currentFrame[cFrame] = 0;
+		}
+		if(roundedFrame < 0) 
+		{
+			roundedFrame = 0;
+		}
+		if(window.getMode() != ModeType.Overworld || (x>tx-600 && x<tx+1400 && y>ty-600 && y<ty+800))
+		{
+			Graphics2D g2d = (Graphics2D) g;
+			g2d.drawImage(loadFrame(animation,roundedFrame),x,y+loadFrame(animation,roundedFrame).getHeight(),loadFrame(animation,roundedFrame).getWidth(),-loadFrame(animation,roundedFrame).getHeight(), null);	
+			
+		}
+
+		currentFrame[cFrame]+=1;
+		if(currentFrame[cFrame] > animation[2].getWidth())
+		{
+			currentFrame[cFrame] = 0;
+		}
+	}
 	protected void animate(int x, int y,BufferedImage[] animation, int cFrame, Graphics g)
 	{
 		int tx = window.getOverworldMode().getTx();
@@ -269,5 +296,10 @@ public abstract class GameObject {
 		int x1 = Math.abs(this.x-obj.getX());
 		int y1 = Math.abs(this.y-obj.getY());
 		return (int)(Math.sqrt(Math.pow(x1,2)+Math.pow(y1,2)));
+	}
+	@Override
+	public String toString()
+	{
+		return (this.getClass().toString() + " :: " + "X: " + x + " : Y: " + y + " : HV: " + hVelocity + " : VV: " + vVelocity);
 	}
 }

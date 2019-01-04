@@ -30,7 +30,13 @@ public class Sprites {
 	public static BufferedImage[] carlHit(boolean tie) {if(tie)return carlHit[0];else return carlHit[1];}
 	private static BufferedImage[][] carlDie;
 	public static BufferedImage[] carlDie(boolean tie) {if(tie)return carlDie[0];else return carlDie[1];}
-
+	private static BufferedImage[][] carlSpatula;
+	public static BufferedImage[] carlSpatula(boolean tie) {if(tie)return carlSpatula[0];else return carlSpatula[1];}
+	private static BufferedImage[][] carlTalk;
+	public static BufferedImage[] carlTalk(boolean tie) {if(tie)return carlTalk[0];else return carlTalk[1];}
+	private static BufferedImage[][] carlWear;
+	public static BufferedImage[] carlWear(boolean tie) {if(tie)return carlWear[0];else return carlWear[1];}
+	
 	private static BufferedImage[] ground;
 	public static BufferedImage[] ground() {return ground;}
 	private static BufferedImage[] grass;
@@ -49,12 +55,32 @@ public class Sprites {
 	public static BufferedImage[] cloud() {return cloud;}
 	private static BufferedImage[] leaves;
 	public static BufferedImage[] leaves() {return leaves;}
+	private static BufferedImage[] trunk;
+	public static BufferedImage[] trunk() {return trunk;}
 	private static BufferedImage[] water;
 	public static BufferedImage[] water() {return water;}
 	private static BufferedImage[] flowingWater;
 	public static BufferedImage[] flowingWater() {return flowingWater;}
+	private static BufferedImage[] tiles;
+	public static BufferedImage[] tiles() {return tiles;}
+	private static BufferedImage[] concrete;
+	public static BufferedImage[] concrete() {return concrete;}
+	
+	
 	private static BufferedImage[] poof;
 	public static BufferedImage[] poof() {return poof;}
+	private static BufferedImage[] inventory;
+	public static BufferedImage[] inventory() {return inventory;}
+	private static BufferedImage[] inventory2;
+	public static BufferedImage[] inventory2() {return inventory2;}
+	private static BufferedImage[] boxClosed;
+	public static BufferedImage[] boxClosed() {return boxClosed;}
+	private static BufferedImage[] boxOpen;
+	public static BufferedImage[] boxOpen() {return boxOpen;}
+	private static BufferedImage[] spatula;
+	public static BufferedImage[] spatula() {return spatula;}
+	private static BufferedImage[] counter;
+	public static BufferedImage[] counter() {return counter;}
 
 	private static BufferedImage[] checkpoint;
 	public static BufferedImage[] checkpoint() {return checkpoint;}
@@ -91,6 +117,15 @@ public class Sprites {
 	public static BufferedImage[] dragon4Idle() {return dragon4Idle;}
 	private static BufferedImage[] dragon4Talk;
 	public static BufferedImage[] dragon4Talk() {return dragon4Talk;}
+	
+	private static BufferedImage[] snakeIdle;
+	public static BufferedImage[] snakeIdle() {return snakeIdle;}
+	private static BufferedImage[] snakeTalk;
+	public static BufferedImage[] snakeTalk() {return snakeTalk;}
+	private static BufferedImage[] shop;
+	public static BufferedImage[] shop() {return shop;}
+	private static BufferedImage[] door;
+	public static BufferedImage[] door() {return door;}
 
 	private static BufferedImage[] coconut;
 	public static BufferedImage[] coconut() {return coconut;}
@@ -106,6 +141,26 @@ public class Sprites {
 	public static BufferedImage[] fish() {return fish;}
 	private static BufferedImage[] spike;
 	public static BufferedImage[] spike() {return spike;}
+	private static BufferedImage[] slug;
+	public static BufferedImage[] slug() {return slug;}
+	private static BufferedImage[] tree;
+	public static BufferedImage[] tree() {return tree;}
+	private static BufferedImage[] treeShoot;
+	public static BufferedImage[] treeShoot() {return treeShoot;}
+	private static BufferedImage[] tree2;
+	public static BufferedImage[] tree2() {return tree2;}
+	private static BufferedImage[] treeShoot2;
+	public static BufferedImage[] treeShoot2() {return treeShoot2;}
+	private static BufferedImage[] treeHit2;
+	public static BufferedImage[] treeHit2() {return treeHit2;}
+	private static BufferedImage[] projectile;
+	public static BufferedImage[] projectile() {return projectile;}
+	private static BufferedImage[] bird;
+	public static BufferedImage[] bird() {return bird;}
+	private static BufferedImage[] bird2;
+	public static BufferedImage[] bird2() {return bird2;}
+	private static BufferedImage[] birdHit;
+	public static BufferedImage[] birdHit() {return birdHit;}
 
 	private static BufferedImage[] arrowRight;
 	public static BufferedImage[] arrowRight() {return arrowRight;}
@@ -137,6 +192,17 @@ public class Sprites {
 			cIcon = loadAnimation("/img/c_icon/c", 24, window);
 			savePoint = loadAnimation("/img/blocks/savepoint", 1, window);
 			platform = loadAnimation("/img/blocks/platform", 1, window);
+			trunk = loadAnimation("/img/blocks/trunk", 1, window);
+			tiles = loadAnimation("/img/blocks/tiles", 1, window);
+			concrete = loadAnimation("/img/blocks/concrete", 1, window);
+
+			inventory = loadAnimation("/img/eyecandy/itembox", 1, window);
+			inventory2 = loadAnimation("/img/eyecandy/itembox2", 1, window);
+			snakeIdle = loadAnimation("/img/snake/snake_idle", 24, window);
+			snakeTalk = loadAnimation("/img/snake/snake_talk", 24, window);
+			shop = loadAnimation("/img/bg/merchant", 1, window);
+			door = loadAnimation("/img/bg/door", 1, window);
+			counter = loadAnimation("/img/bg/counter", 1, window);
 			
 			carlIdle = loadCarlSprite("/img/carl/idle/idle", 24, window);
 			carlRun = loadCarlSprite("/img/carl/run/run", 16, window);
@@ -146,6 +212,9 @@ public class Sprites {
 			carlBite = loadCarlSprite("/img/carl/chomp/chomp", 12, window);
 			carlHit = loadCarlSprite("/img/carl/hit/hit", 6, window);
 			carlDie = loadCarlSprite("/img/carl/die/die", 18, window);
+			carlSpatula = loadCarlSprite("/img/carl/spatula/spatula", 18, window);
+			carlTalk = loadCarlSprite("/img/carl/talk/talk", 24, window);
+			carlWear = loadCarlSprite("/img/carl/weartie/wear", 48, window);
 
 			coconut = loadAnimation("/img/enemy/coconut/coconut1", 24, window);
 			coconut2 = loadAnimation("/img/enemy/coconut/coconut2", 24, window);
@@ -154,6 +223,17 @@ public class Sprites {
 			crab = loadAnimation("/img/enemy/crab/crab1", 12, window);
 			crabJump = loadAnimation("/img/enemy/crab/jump1", 2, window);
 			spike = loadAnimation("/img/blocks/spikes", 1, window);
+			slug = loadAnimation("/img/enemy/slug/slug", 24, window);
+			tree = loadAnimation("/img/enemy/tree/tree", 24, window);
+			treeShoot = loadAnimation("/img/enemy/tree/shoot", 24, window);
+			tree2 = loadAnimation("/img/enemy/tree/tree2", 24, window);
+			treeShoot2 = loadAnimation("/img/enemy/tree/shoot2", 24, window);
+			treeHit2 = loadAnimation("/img/enemy/tree/hit2", 18, window);
+			treeShoot2 = loadAnimation("/img/enemy/tree/shoot2", 24, window);
+			projectile = loadAnimation("/img/enemy/tree/bullet", 1, window);
+			bird = loadAnimation("/img/enemy/bird/bird1", 12, window);
+			bird2 = loadAnimation("/img/enemy/bird/bird2", 12, window);
+			birdHit = loadAnimation("/img/enemy/bird/hit", 12, window);
 
 			dragonIdle = loadAnimation("/img/dragon/idle/idle", 24, window);
 			dragonTalk = loadAnimation("/img/dragon/talk/talk", 24, window);

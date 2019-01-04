@@ -201,7 +201,7 @@ public class Crab extends GameObject{
 	private void playerCollision(Carl carl)
 	{
 		//Die if the player attacks
-		if(this.getBounds().intersects(carl.attackBounds()) && carl.getAttack()>0 && carl.getAttack()<9999)
+		if(this.getBounds().intersects(carl.attackBounds()) && carl.getAttack()>0 && carl.getAttack()<9999  && carl.getAttackDamage()>0)
 		{
 			die();
 			this.carlHasTie = carl.getTie();

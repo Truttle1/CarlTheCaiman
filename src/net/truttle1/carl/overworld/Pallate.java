@@ -17,14 +17,17 @@ public class Pallate {
 
 	public static final Color BACKGROUND1 = new Color(0,127,0);
 	public static final Color BACKGROUND2 = new Color(255,106,0);
+	public static final Color BACKGROUND3 = new Color(255,209,0);
 
 	public static final Color MONSTER1 = new Color(255,0,255);
 	public static final Color MONSTER2 = new Color(127,51,0);
 	public static final Color MONSTER3 = new Color(255,0,0);
 	public static final Color MONSTER4 = new Color(255,0,127);
+	public static final Color MONSTER5 = new Color(255,97,0);
+	public static final Color MONSTER6 = new Color(201,0,0);
 	public static final Color SPIKE = new Color(200,200,200);
 
 	public static final Color LEAVES = new Color(0,127,14);
 	public static final Color TRUNK = new Color(127,51,0);
-	public static final Color CLOUD = new Color(127,51,0);
+	public static final Color CLOUD = new Color(206,206,206);
 }

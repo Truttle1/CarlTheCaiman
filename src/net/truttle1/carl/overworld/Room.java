@@ -4,18 +4,24 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 import net.truttle1.carl.blocks.Cloud;
+import net.truttle1.carl.blocks.Tiles;
 import net.truttle1.carl.blocks.Grass;
 import net.truttle1.carl.blocks.Leaves;
 import net.truttle1.carl.blocks.MovingPlatform;
 import net.truttle1.carl.blocks.PassthroughGrass;
 import net.truttle1.carl.blocks.Sand;
 import net.truttle1.carl.blocks.Stone;
+import net.truttle1.carl.blocks.Concrete;
 import net.truttle1.carl.blocks.Water;
+import net.truttle1.carl.enemies.Bird2;
 import net.truttle1.carl.enemies.Coconut;
 import net.truttle1.carl.enemies.Coconut2;
 import net.truttle1.carl.enemies.Crab;
 import net.truttle1.carl.enemies.Fish;
+import net.truttle1.carl.enemies.Slug;
 import net.truttle1.carl.enemies.Spike;
+import net.truttle1.carl.enemies.Tree;
+import net.truttle1.carl.enemies.Tree2;
 import net.truttle1.carl.main.AudioHandler;
 import net.truttle1.carl.main.Game;
 import net.truttle1.carl.main.GameObject;
@@ -77,11 +83,18 @@ public class Room {
 			{
 				if(theme == Theme.Tropical)
 				{
+					System.out.println(this.id);
 					loadTropical(x,y);
 				}
 				if(theme == Theme.Forest)
 				{
-					loadTropical(x,y);
+					System.out.println(this.id);
+					loadForest(x,y);
+				}
+				if(theme == Theme.Store)
+				{
+					System.out.println(this.id);
+					loadStore(x,y);
 				}
 			}
 		}
@@ -210,6 +223,10 @@ public class Room {
 		{
 			om.addObject(new BackgroundDecoration(om.getGame(),x,y,Sprites.house1()));
 		}
+		if(stage.getRGB(x,y) == Pallate.BACKGROUND3.getRGB())
+		{
+			om.addObject(new BackgroundDecoration(om.getGame(),x,y,Sprites.shop()));
+		}
 	}
 	public void loadForest(int x, int y)
 	{
@@ -231,16 +248,19 @@ public class Room {
 		}
 		if(stage.getRGB(x,y) == Pallate.MONSTER1.getRGB())
 		{
-			om.addObject(new Coconut(om.getGame(),x,y));
-		}
-		if(stage.getRGB(x,y) == Pallate.MONSTER2.getRGB())
-		{
-			om.addObject(new Fish(om.getGame(),x,y));
-			om.addObject(new Water(x,y,om.getGame(),om));
+			om.addObject(new Slug(om.getGame(),x,y));
 		}
 		if(stage.getRGB(x,y) == Pallate.MONSTER3.getRGB())
 		{
-			om.addObject(new Crab(om.getGame(),x,y));
+			om.addObject(new Tree(om.getGame(),x,y));
+		}
+		if(stage.getRGB(x,y) == Pallate.MONSTER5.getRGB())
+		{
+			om.addObject(new Bird2(om.getGame(),x,y));
+		}
+		if(stage.getRGB(x,y) == Pallate.MONSTER6.getRGB())
+		{
+			om.addObject(new Tree2(om.getGame(),x,y));
 		}
 		if(stage.getRGB(x,y) == Pallate.SPIKE.getRGB())
 		{
@@ -260,11 +280,28 @@ public class Room {
 			om.addObject(new Save(om.getGame(),x,y));
 			checkpointIds++;
 		}
-		if(stage.getRGB(x,y) == Pallate.BACKGROUND1.getRGB())
+		if(stage.getRGB(x,y) == Pallate.TRUNK.getRGB())
 		{
+			om.addObject(new BackgroundDecoration(om.getGame(),x,y,Sprites.trunk()));
 		}
 		if(stage.getRGB(x,y) == Pallate.BACKGROUND2.getRGB())
 		{
+			om.addObject(new BackgroundDecoration(om.getGame(),x,y,Sprites.house1()));
+		}
+		if(stage.getRGB(x,y) == Pallate.BACKGROUND3.getRGB())
+		{
+			om.addObject(new BackgroundDecoration(om.getGame(),x,y,Sprites.shop()));
+		}
+	}
+	public void loadStore(int x, int y)
+	{
+		if(stage.getRGB(x,y) == Pallate.SAND.getRGB())
+		{
+			om.addObject(new Concrete(x,y,om.getGame(),om));
+		}
+		if(stage.getRGB(x,y) == Pallate.STONE.getRGB())
+		{
+			om.addObject(new Tiles(x,y,om.getGame(),om));
 		}
 	}
 }

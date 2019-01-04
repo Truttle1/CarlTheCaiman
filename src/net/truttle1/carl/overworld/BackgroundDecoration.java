@@ -20,7 +20,6 @@ public class BackgroundDecoration extends GameObject{
 
 	@Override
 	public void tick() {
-		
 	}
 
 	@Override
@@ -32,6 +31,14 @@ public class BackgroundDecoration extends GameObject{
 		else if(this.currentAnimation.equals(Sprites.house1()))
 		{
 			this.animate(x, y-15, currentAnimation, 0, g);
+		}
+		else if(this.currentAnimation.equals(Sprites.shop()))
+		{
+			this.animate(x, y-15, currentAnimation, 0, g);
+		}
+		else if(this.currentAnimation.equals(Sprites.trunk()))
+		{
+			this.animate(x, y-24, currentAnimation, 0, g);
 		}
 		else
 		{

@@ -30,10 +30,14 @@ public final class Carl extends GameObject{
 	
 	private boolean hit = false;
 	private boolean dead = false;
+	private int idleTimer;
 	private int hitTimer;
 	
 	private static final int W_BITE = 1;
-	private int weapon = 0;
+	private static final int W_SPATULA = 2;
+	private static final int W_TIE = 3;
+	private int weapon = 1;
+	private boolean animationLock = false;
 
 	public Carl(Game window, int x, int y) {
 		super(window);
@@ -55,9 +59,26 @@ public final class Carl extends GameObject{
 
 	@Override
 	public void tick() {
+		getWeapon();
 		if(om == null)
 		{
 			this.om = window.getOverworldMode();
+		}
+		if(hVelocity == 0)
+		{
+			this.idleTimer++;
+		}
+		else
+		{
+			this.idleTimer = 0;
+		}
+		if(this.idleTimer == 90 && tie && this.currentAnimation.equals(Sprites.carlIdle(tie)))
+		{
+			this.setFrame(0,0);
+		}
+		if(this.idleTimer>138)
+		{
+			idleTimer = 0;
 		}
 		determineSwimming();
 		moveCamera();
@@ -71,7 +92,17 @@ public final class Carl extends GameObject{
 		}
 		else
 		{
-			this.currentAnimation = Sprites.carlIdle(tie);
+			if(!this.animationLock)
+			{
+				if(this.idleTimer<90 || !tie)
+				{
+					this.currentAnimation = Sprites.carlIdle(tie);
+				}
+				else
+				{
+					this.currentAnimation = Sprites.carlWear(tie);
+				}
+			}
 			hVelocity = 0;
 		}
 		collideWithGround();
@@ -148,7 +179,10 @@ public final class Carl extends GameObject{
 			{
 				this.hVelocity = -hVelocity;
 			}
-			this.currentAnimation = Sprites.carlHit(tie);
+			if(!this.animationLock)
+			{
+				this.currentAnimation = Sprites.carlHit(tie);
+			}
 			if(tie)
 			{
 				this.tie = false;
@@ -179,20 +213,61 @@ public final class Carl extends GameObject{
 		{
 			this.attacking = false;
 		}
-		if(attacking)
+		if(attacking && !this.animationLock)
 		{
-			if(hVelocity>0)
+			if(weapon == W_BITE)
 			{
-				hVelocity -= 1;
+				if(hVelocity>0)
+				{
+					hVelocity -= 1;
+				}
+				if(hVelocity<0)
+				{
+					hVelocity += 1;
+				}
+				
+				this.currentAnimation = Sprites.carlBite(tie);
+				if(this.getFrame(0)>=11)
+				{
+					attacking = false;
+				}
 			}
-			if(hVelocity<0)
+			else if(weapon == W_SPATULA)
 			{
-				hVelocity += 1;
+				if(hVelocity>0)
+				{
+					hVelocity -= 1;
+				}
+				if(hVelocity<0)
+				{
+					hVelocity += 1;
+				}
+				this.currentAnimation = Sprites.carlSpatula(tie);
+				if(this.getFrame(0)>=17)
+				{
+					attacking = false;
+				}
 			}
-			this.currentAnimation = Sprites.carlBite(tie);
-			if(this.getFrame(0)>=11)
+			else if(weapon == W_TIE)
 			{
-				attacking = false;
+				if(hVelocity>0)
+				{
+					hVelocity -= 1;
+				}
+				if(hVelocity<0)
+				{
+					hVelocity += 1;
+				}
+				this.currentAnimation = Sprites.carlWear(tie);
+				if(this.getFrame(0)>=47)
+				{
+					if(!tie)
+					{
+						Global.inventory[Global.currentCell] = 0;
+					}
+					tie = true;
+					attacking = false;
+				}
 			}
 		}
 	}
@@ -341,17 +416,17 @@ public final class Carl extends GameObject{
 			}
 			this.currentAnimation = Sprites.carlSwim(tie);
 		}
-		else if(!onGround && vVelocity>0 && !attacking)
+		else if(!onGround && vVelocity>0 && !attacking && !animationLock)
 		{
 			this.currentAnimation = Sprites.carlJump(tie);
 			this.setFrame(0, 1);
 		}
-		else if(!onGround && vVelocity<=0 && !attacking)
+		else if(!onGround && vVelocity<=0 && !attacking && !animationLock)
 		{
 			this.currentAnimation = Sprites.carlJump(tie);
 			this.setFrame(0, 0);
 		}
-		else if(onGround && !attacking)
+		else if(onGround && !attacking && !animationLock)
 		{
 			if(skidding && ((hVelocity>-6 && Global.leftDown) ||(hVelocity<6 && Global.rightDown)))
 			{
@@ -364,7 +439,14 @@ public final class Carl extends GameObject{
 			}
 			else
 			{
-				this.currentAnimation = Sprites.carlIdle(tie);
+				if(this.idleTimer<90 || !tie)
+				{
+					this.currentAnimation = Sprites.carlIdle(tie);
+				}
+				else
+				{
+					this.currentAnimation = Sprites.carlWear(tie);
+				}
 				skidding = false;
 			}
 		}
@@ -391,10 +473,10 @@ public final class Carl extends GameObject{
 	{
 		for(int i=0; i<om.getObjects().size();i++)
 		{
-			if(om.getObject(i).getId() == ObjectId.Ground)
+			if(om.getObject(i).getId() == ObjectId.Ground || om.getObject(i).getId() == ObjectId.Cloud)
 			{
 				Grass g = (Grass)om.getObject(i);
-				if(g.getBounds().intersects(getBottom()))
+				if(g.getBounds().intersects(getBottom()) && (!g.getGoThroughable() || (this.y-g.getY()<=-90 && vVelocity>0)))
 				{
 					this.y = g.getY()-175;
 					if(this.vVelocity>0)
@@ -409,7 +491,7 @@ public final class Carl extends GameObject{
 					this.vVelocity = 0;
 					this.y += 30;
 				}
-				else if(vVelocity<80 && g.getBounds().intersects(getLeft()) || g.getBounds().intersects(getRight()))
+				else if(!g.getGoThroughable() && vVelocity<80 && (g.getBounds().intersects(getLeft()) || g.getBounds().intersects(getRight())))
 				{
 					if(g.getBounds().intersects(getLeft()) && this.hVelocity<0)
 					{
@@ -431,20 +513,35 @@ public final class Carl extends GameObject{
 	public void render(Graphics g) {
 		if(!hit || dead || hitTimer%6<3)
 		{
-			if(flipped)
+			if(this.currentAnimation == Sprites.carlSpatula(tie))
 			{
-				this.animate(x, y, currentAnimation, 0, g);
+				if(flipped)
+				{
+					this.animate(x-60, y-100, currentAnimation, 0, g);
+				}
+				else
+				{
+					this.animate(x-80, y-100, currentAnimation, 0, g);
+				}
 			}
 			else
 			{
-				this.animate(x-40, y, currentAnimation, 0, g);
+				if(flipped)
+				{
+					this.animate(x, y, currentAnimation, 0, g);
+				}
+				else
+				{
+					this.animate(x-40, y, currentAnimation, 0, g);
+				}
 			}
 		}
 		
 		g.setColor(Color.red);
 		//g.drawRect(attackBounds().x,attackBounds().y,attackBounds().width,attackBounds().height);
-		
 		/*
+		g.drawRect(getBounds().x,getBounds().y,getBounds().width,getBounds().height);
+		g.drawRect(getBounds().x,getBounds().y,getBounds().width,getBounds().height);
 		g.drawRect(getBottom().x,getBottom().y,getBottom().width,getBottom().height);
 		g.drawRect(getTop().x,getTop().y,getTop().width,getTop().height);
 		g.drawRect(getLeft().x,getLeft().y,getLeft().width,getLeft().height);
@@ -458,11 +555,11 @@ public final class Carl extends GameObject{
 	public Rectangle getBounds() {
 		if(flipped)
 		{
-			return new Rectangle(x+18,y+8,140,190);
+			return new Rectangle(x+18,y+18,120,170);
 		}
 		else
 		{
-			return new Rectangle(x,y+8,140,190);
+			return new Rectangle(x+20,y+18,120,170);
 		}
 	}
 
@@ -485,13 +582,31 @@ public final class Carl extends GameObject{
 	public int getAttack()
 	{
 		int attack = 0;
-		if(attacking && this.getFrame(0)>=6)
+		if(weapon == W_BITE)
 		{
-			attack = 1;
+			if(attacking && this.getFrame(0)>=6)
+			{
+				attack = 1;
+			}
+			if(attacking && this.getFrame(0)<6 && this.getFrame(0)>3)
+			{
+				attack = 9999;
+			}
 		}
-		if(attacking && this.getFrame(0)<6 && this.getFrame(0)>3)
+		if(weapon == W_SPATULA)
 		{
-			attack = 9999;
+			if(attacking && this.getFrame(0)>=7)
+			{
+				attack = 1;
+			}
+			if(attacking && this.getFrame(0)<7 && this.getFrame(0)>3)
+			{
+				attack = 9999;
+			}
+		}
+		if(weapon == W_TIE)
+		{
+			attack = 0;
 		}
 		if(dead)
 		{
@@ -507,13 +622,40 @@ public final class Carl extends GameObject{
 	{
 		if(getAttack()<=1 || getAttack()>1000)
 		{
-			if(flipped)
+			if(weapon == W_BITE)
 			{
-				return new Rectangle(x+110,y+40,70,50);
+				if(flipped)
+				{
+					return new Rectangle(x+110,y+40,70,50);
+				}
+				else
+				{
+					return new Rectangle(x-20,y+40,70,50);
+				}
+			}
+			else if(weapon == W_SPATULA)
+			{
+
+				if(flipped)
+				{
+					return new Rectangle(x+40,y-20,140,170);
+				}
+				else
+				{
+					return new Rectangle(x-40,y-20,140,170);
+				}
 			}
 			else
 			{
-				return new Rectangle(x-20,y+40,70,50);
+
+				if(flipped)
+				{
+					return new Rectangle(x+110,y+40,70,50);
+				}
+				else
+				{
+					return new Rectangle(x-20,y+40,70,50);
+				}
 			}
 		}
 		else
@@ -523,5 +665,40 @@ public final class Carl extends GameObject{
 	}
 	public boolean getTie() {
 		return tie;
+	}
+	public int getAttackDamage()
+	{
+		if(weapon == W_BITE)
+		{
+			return 1;
+		}
+		else if(weapon == W_SPATULA)
+		{
+			return 2;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	public void setAnimationLock(boolean lock)
+	{
+		this.animationLock = lock;
+	}
+	private void getWeapon()
+	{
+
+		if(Global.inventory[Global.currentCell] == Game.SPATULA_ID)
+		{
+			this.weapon = W_SPATULA;
+		}
+		else if(Global.inventory[Global.currentCell] == Game.TIE_ID)
+		{
+			this.weapon = W_TIE;
+		}
+		else
+		{
+			this.weapon = W_BITE;
+		}
 	}
 }

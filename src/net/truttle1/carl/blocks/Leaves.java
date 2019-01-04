@@ -25,7 +25,7 @@ public class Leaves extends Grass{
 		unmodifiedY = y;
 		this.x = x*100;
 		this.y = (y*100)-24;
-		this.id = ObjectId.Ground;
+		this.id = ObjectId.Cloud;
 		this.om = om;
 		this.goThroughable = true;
 		currentAnimation = Sprites.leaves();

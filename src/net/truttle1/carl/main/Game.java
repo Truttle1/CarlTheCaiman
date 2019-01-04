@@ -22,6 +22,8 @@ import javax.swing.JLabel;
 
 import net.truttle1.carl.main.KeyboardInput;
 import net.truttle1.carl.overworld.OverworldMode;
+import net.truttle1.carl.store.Item;
+import net.truttle1.carl.store.Snake;
 import net.truttle1.carl.main.ModeType;
 import net.truttle1.carl.main.Global;
 
@@ -35,8 +37,12 @@ public final class Game extends Canvas implements Runnable
 	private OverworldMode overworldMode;
 	private ModeType mode;
 	private GraphicsLoader graphicsLoader;
-	private ImageLoader imageLoader;
-	private JLabel lbl = new JLabel();
+	private static ImageLoader imageLoader = new ImageLoader();
+	public static final Item ITM_SPATULA = new Item(120,imageLoader.loadImage("/img/items/spatula.png"),"Spatula","It's a tool used for flipping burgers!/This specific one, though, can be used to whack monsters!/TYPE: WEAPON :: DAMAGE: 2");
+	public static final Item ITM_TIE = new Item(25,imageLoader.loadImage("/img/good/tie_00001.png"),"Tie","A spiffy tie that makes all caimans look 250% much more/formal! It also has the bizarre property of causing caimans/to take extra hits from monsters!");
+	public static final Item[] ITEM_LIST = {null,ITM_SPATULA,ITM_TIE};
+	public static final int SPATULA_ID = 1;
+	public static final int TIE_ID = 2;
 	@Override
 	public void run() 
 	{
@@ -98,10 +104,34 @@ public final class Game extends Canvas implements Runnable
 			}
 		}
 
+		if(Global.aPressed)
+		{
+			if(Global.currentCell == 0)
+			{
+				Global.currentCell = 3;
+			}
+			else
+			{
+				Global.currentCell--;
+			}
+		}
+		if(Global.dPressed)
+		{
+			if(Global.currentCell == 3)
+			{
+				Global.currentCell = 0;
+			}
+			else
+			{
+				Global.currentCell++;
+			}
+		}
 		Global.zPressed = false;
 		Global.xPressed = false;
 		Global.cPressed = false;
 		Global.vPressed = false;
+		Global.aPressed = false;
+		Global.dPressed = false;
 		Global.upPressed = false;
 		Global.downPressed = false;
 		Global.leftPressed = false;
@@ -217,7 +247,21 @@ public final class Game extends Canvas implements Runnable
 			g.drawString("Loading...", 64, 64);
 		}
 		Fade.render(g);
-		SpeechBubble.render(g);
+		if(Global.talkingTo instanceof Snake && Global.talking == 100)
+		{
+			for(int i=0; i<overworldMode.getObjects().size(); i++)
+			{
+				if(overworldMode.getObject(i) instanceof Snake)
+				{
+					Snake sn = (Snake) overworldMode.getObject(i);
+					sn.storeRender(g);
+				}
+			}
+		}
+		else
+		{
+			SpeechBubble.render(g);
+		}
 		g.dispose();
 		bs.show();
 	}
@@ -235,11 +279,12 @@ public final class Game extends Canvas implements Runnable
 	}
 	private void init()
 	{
-		imageLoader = new ImageLoader();
 		graphicsLoader = new GraphicsLoader(this);
 		graphicsLoader.start();
 		this.addKeyListener(new KeyboardInput());
 		running = true;
+		Global.inventory[1] = 2;
+		Global.inventory[2] = 2;
 	}
 	
 	public static void main(String[] args) throws IOException
