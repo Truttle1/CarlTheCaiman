@@ -1,5 +1,7 @@
 # Carl the Caiman: The Ten Dollar Bill of Glory
-A game by Truttle1!
+A game by Truttle1!  
+  
+For those of you that want to play the game, the runnable jar is located in the jars folder.
 
 ## PLOT
 
